@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "iosfwd": "cpp",
+        "filesystem": "cpp"
+    },
+    "[cpp]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true
+    },
+    "editor.insertSpaces": true
+}

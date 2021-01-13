@@ -1,0 +1,15 @@
+set(TESTING_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(TESTING_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/source)
+
+# grammar tester
+set(GRAMMAR_TESTER_SOURCE ${ANTLR4_CPP_GENERATED_SRC_DIR} ${TESTING_SOURCE}/TestGrammar.cpp)
+add_executable(${grammar_tester} ${GRAMMAR_TESTER_SOURCE})
+add_dependencies(${grammar_tester} ${parser})
+#target_link_libraries(${grammar_tester} stdc++)
+target_link_libraries(${grammar_tester} antlr4_static)
+target_link_libraries(${grammar_tester} ${parser})
+target_include_directories(${grammar_tester} PUBLIC ${ANTLR4_INCLUDE_DIRS})
+target_include_directories(${grammar_tester} PUBLIC ${ANTLR_KlangParser_OUTPUT_DIR})
+target_include_directories(${grammar_tester} PUBLIC ${TESTING_PATH}/include)
+
+add_test(NAME AllGrammarTests COMMAND ${TESTING_BIN}/${grammar_tester} ${TESTING_PATH})

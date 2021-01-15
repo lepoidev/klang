@@ -3,21 +3,6 @@
 
 #include "IsValidGrammar.h"
 
-bool VerifyFiles( std::vector<std::filesystem::directory_entry> const& files,
-                  bool const expectGrammarFailure )
-{
-  auto const verifyGrammar { [&](
-                               std::filesystem::directory_entry const& file ) {
-    auto const isValidGrammar { IsValidGrammar( file ) };
-    if( expectGrammarFailure )
-    {
-      return !isValidGrammar;
-    }
-    return isValidGrammar;
-  } };
-  return std::all_of( files.begin(), files.end(), verifyGrammar );
-}
-
 int main( int argc, char** argv )
 {
   int curOpt {};
@@ -25,13 +10,13 @@ int main( int argc, char** argv )
 
   while( true )
   {
-    static struct option long_options[] = {
+    struct option long_options[] = {
       { "invalid-grammar", no_argument, &expectGrammarFailureFlag, 1 },
       { 0, 0, 0, 0 }
     };
     int optionIdx {};
 
-    curOpt = getopt_long( argc, argv, "vsi", long_options, &optionIdx );
+    curOpt = getopt_long( argc, argv, "i", long_options, &optionIdx );
 
     if( curOpt == -1 )
     {
@@ -41,23 +26,33 @@ int main( int argc, char** argv )
     switch( curOpt )
     {
       case 0: break;
-      case 'i': break;
+      case 'i': expectGrammarFailureFlag = 1; break;
       case '?': break;
       default: abort();
     }
   }
 
-  std::vector<std::filesystem::directory_entry> files {};
+  auto const expectedResult { expectGrammarFailureFlag == 0 ? true : false };
+  int numFails {};
+
+  std::cout << "Expecting " << ( expectedResult ? "valid" : "invalid" )
+            << " grammar" << std::endl;
 
   while( optind < argc )
   {
-    files.emplace_back( argv[optind++] );
+    std::filesystem::directory_entry dirEntry { argv[optind++] };
+    std::cout << "\tValidating: " << dirEntry.path() << std::endl;
+    auto const isValidGrammar { IsValidGrammar( dirEntry ) };
+    if( isValidGrammar != expectedResult )
+    {
+      std::cout << "\t\t-> Failed" << std::endl;
+      ++numFails;
+    }
+    else
+    {
+      std::cout << "\t\t-> Success" << std::endl;
+    }
   }
-
-  if( VerifyFiles( files, expectGrammarFailureFlag != 0 ) )
-  {
-    return 0;
-  }
-
-  return 1;
+  std::cout << "\tTotal Failures: " << numFails << std::endl;
+  return numFails > 0;
 }

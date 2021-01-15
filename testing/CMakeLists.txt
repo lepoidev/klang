@@ -15,9 +15,7 @@ target_include_directories(${grammar_tester} PUBLIC ${TESTING_PATH}/include)
 #add_test(NAME AllGrammarTests COMMAND ${TESTING_BIN}/${grammar_tester} ${TESTING_PATH})
 
 # add passing grammar tests
-find_all_k_files(valid_tests ${TESTING_PATH}/valid_tests)
-foreach(k_file ${valid_tests})
-  MESSAGE("${k_file}")
-endforeach()
+add_tests_from_folder(${TESTING_PATH}/valid_tests "valid_grammar_" ${TESTING_BIN}/${grammar_tester} "")
 
 # add failing grammar tests
+add_tests_from_folder(${TESTING_PATH}/invalid_tests "invalid_grammar_" ${TESTING_BIN}/${grammar_tester} "-i")

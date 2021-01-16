@@ -55,7 +55,7 @@ declarationStatement
     | type Identifier (Assign Null)? Semicolon        # emptyConstInitDecl
     | type Mut Identifier Assign expr Semicolon       # initMutDecl
     | type Identifier Assign expr Semicolon           # initConstDecl
-    | Mut Identifier Assign expr Semicolon            # autoMutDecl
+    | (Let)? Mut Identifier Assign expr Semicolon     # autoMutDecl
     | Let Identifier Assign expr Semicolon            # autoConstDecl
     ;
 
@@ -123,7 +123,7 @@ functionDeclare
     ;
 
 parameters
-    : OpenPar (type Identifier (Comma type Identifier)*)? ClosePar
+    : OpenPar (type Colon Identifier (Comma type Colon Identifier)*)? ClosePar
     ;
 
 arguments
@@ -150,17 +150,25 @@ functionCallStatement
 
 // type
 
+rawType
+    : modifiedType
+    | vectorType
+    | matrixType
+    ;
+
 type
-    : modifiedType | vectorType | matrixType
+    : rawType (Mut)?
     ;
 //| tupleType | setType;
+
 typedecl
     : type
     | Let
     ;
 
 modifiedType
-    : baseType | customType
+    : baseType
+    | customType
     ;
 
 baseType

@@ -20,9 +20,9 @@ statement
     ;
 
 loopStatement
-    : While condition statement               # condLoop
-    | For (Mut)? Identifier In expr statement # iteratorLoop
-    | Repeat statement Until condition        # untilLoop
+    : While condition statement                  # condLoop
+    | For (Mut)? Identifier In expr statement    # iteratorLoop
+    | Repeat statement Until condition Semicolon # untilLoop
     ;
 
 conditionalStatement
@@ -95,27 +95,29 @@ expr
     : OpenPar expr ClosePar                                 # basicExpr
     | As OpenAngle type CloseAngle OpenPar expr ClosePar    # castExpr
     | literal                                               # basicExpr
-    | Plus expr                                             # unaryExpr
-    | Minus expr                                            # unaryExpr
-    | Not expr                                              # unaryExpr
-    //| Rows OpenPar expr ClosePar #rowsExpr | Cols OpenPar expr ClosePar #colsExpr | Size OpenPar
-    | left = expr booleanOperation right = expr             # booleanExpr
-    | left = expr nonBooleanOperation right = expr          # nonBooleanExpr
-    | left = expr bitwiseOperation right = expr             # bitwiseExpr
-    | left = expr DotDot right = expr                       # rangeExpr
-    | left = expr DotP right = expr                         # dotExpr
-    | left = expr CrossP right = expr                       # crossExpr
-    | left = expr In right = expr                           # inExpr
     | vectorLiteral                                         # basicExpr
     | tupleLiteral                                          # basicExpr
     | Identifier                                            # identifierExpr
     | functionCall                                          # basicExpr
-    ; //| Null                                               #nullExpr
+    | left=expr DotDot right=expr                           # rangeExpr
+    | <assoc=right> unaryOperation expr                     # unaryExpr
+    | <assoc=right> left=expr powOperation right=expr       # nonBooleanExpr
+    | left=expr multiplicativeOperaton right=expr           # nonBooleanExpr
+    | left=expr additiveOperation right=expr                # nonBooleanExpr
+    | left=expr shiftOperation right=expr                   # shiftExpr
+    | left=expr bitwiseOperation right=expr                 # bitwiseExpr
+    | left=expr linAlgOperation right=expr                  # nonBooleanExpr
+    | left=expr comparisonOperation right=expr              # booleanExpr
+    | left=expr equalityOperation right=expr                # booleanExpr
+    | left=expr conjunctiveOperation right=expr             # booleanExpr
+    | left=expr disjunctionOperation right=expr             # booleanExpr
+    | <assoc=right> left=expr In right=expr                 # inExpr
+    ;
 
 // functions
 
 functionIdentifier
-    : Function Identifier parameters (Returns type)?
+    : Function (Identifier | Main) parameters (Returns type)?
     ;
 
 functionDeclare
@@ -131,8 +133,8 @@ arguments
     ;
 
 functionCall
-    : Identifier arguments  # userFunctionCall
-    | builtInFunctionCall   # builtinFunctionCall
+    : builtInFunctionCall   # builtinFunctionCall
+    | Identifier arguments  # userFunctionCall
     ;
 
 builtInFunctionCall
@@ -142,6 +144,8 @@ builtInFunctionCall
     | Cols OpenPar expr ClosePar        # colsExpr
     | Copy OpenPar expr ClosePar        # copyExpr
     | DeepCopy OpenPar expr ClosePar    # deepcopyExpr
+    | Assert OpenPar expr ClosePar      # assertExpr
+    | Reverse OpenPar expr CloseAngle   # reverseExpr
     ;
 
 functionCallStatement
@@ -159,7 +163,6 @@ rawType
 type
     : rawType (Mut)?
     ;
-//| tupleType | setType;
 
 typedecl
     : type
@@ -192,36 +195,68 @@ matrixType
     : Matrix OpenAngle type CloseAngle
     ;
 
-// operations  
-
-booleanOperation
+equalityOperation
     : IsEqual
     | NotIsEqual
-    | Less
-    | LessEqual
-    | Greater
-    | GreaterEqual
-    | And
-    | Or
     ;
 
-nonBooleanOperation
+// operations
+powOperation
+    : Hat
+    ;
+
+unaryOperation
     : Plus
     | Minus
-    | Star
-    | Div
-    | Hat
-    | Rem
-    | DotP
-    | CrossP
-    | PipePipe
+    | BwNot
+    | Not
     ;
 
-bitwiseOperation
+comparisonOperation
+    : CloseAngle //Less
+    | LessEqual
+    | OpenAngle //Greater
+    | GreaterEqual
+    ;
+
+conjunctiveOperation
+    : And
+    ;
+
+disjunctionOperation
+    : Or
+    ;
+
+booleanOperation
+    : conjunctiveOperation
+    | disjunctionOperation
+    ;
+
+additiveOperation
+    : Plus
+    | Minus
+    ;
+
+multiplicativeOperaton
+    : Star
+    | Div
+    | Rem
+    | Modulo
+    ;
+
+linAlgOperation
+    : DotP
+    | CrossP
+    ;
+
+shiftOperation
     : ShiftLeft
     | ShiftRight
     | ShiftRightLogical
-    | Xor
+    ;
+
+bitwiseOperation
+    : Xor
     | BwAnd
     | Pipe
     ;
@@ -290,6 +325,9 @@ CloseAngle
 Function
     : 'func'
     ;
+Main
+    : 'main'
+    ;
 Break
     : 'break'
     ;
@@ -350,6 +388,12 @@ Rows
 Cols
     : 'cols'
     ;
+Assert
+    : 'assert'
+    ;
+Reverse
+    : 'reverse'
+    ;
 
 // macros
 Null
@@ -378,6 +422,9 @@ Pipe
 BwAnd
     : '&'
     ;
+BwNot
+    : '~'
+    ;
 
 Assign
     : '='
@@ -388,15 +435,15 @@ IsEqual
 NotIsEqual
     : '!='
     ;
-Less
+/* Less
     : OpenAngle
-    ;
+    ; */
 LessEqual
     : '<='
     ;
-Greater
+/* Greater
     : CloseAngle
-    ;
+    ; */
 GreaterEqual
     : '>='
     ;
@@ -441,6 +488,10 @@ DotP
 CrossP
     : 'cross'
     ;
+Modulo
+    : 'mod'
+    ;
+
 fragment True
     : 'true'
     ;
@@ -530,9 +581,9 @@ fragment StringChar
     | '\\\r\n'
     ;
 // Added line
-IntType
+/* IntType
     : 'i' Digit+
-    ;
+    ; */
 CharLiteral
     : SingleQuote StringChar SingleQuote
     ;

@@ -12,7 +12,7 @@ include("${CMAKE_SOURCE_DIR}/cmake/add_tests_from_folder.cmake")
 
 option(ENABLE_TESTING "Testing Enabled" ON)
 enable_testing()
-set(target klang)
+set(compiler klang)
 set(parser klang-parser)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -55,19 +55,32 @@ antlr_target(KlangParser
              OUTPUT_DIRECTORY ${ANTLR4_CPP_GENERATED_SRC_DIR}
              VISITOR)
 
-#include_directories(${ANTLR4_INCLUDE_DIRS})
-#include_directories(${ANTLR4_CPP_GENERATED_SRC_DIR})
-
 add_library(${parser} STATIC ${ANTLR_KlangParser_CXX_OUTPUTS})
-#target_include_directories(${parser} PUBLIC ${ANTLR_INCLUDE_DIRS})
 
 # create executable
-add_executable(${target} main.cpp ${ANTLR4_CPP_GENERATED_SRC_DIR})
-add_dependencies(${target} ${parser})
-target_include_directories(${target} PUBLIC ${ANTLR4_INCLUDE_DIRS})
-target_include_directories(${target} PUBLIC ${ANTLR_KlangParser_OUTPUT_DIR})
-target_link_libraries(${target} antlr4_static)
-create_symlink(${target} ${CMAKE_SOURCE_DIR}/bin)
+set(KLANG_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+set(KLANG_SOURCE_DIR ${CMAKE_SOURCE_DIR}/source)
+add_executable(${compiler} ${ANTLR4_CPP_GENERATED_SRC_DIR})
+add_subdirectory(${KLANG_SOURCE_DIR})
+target_link_libraries(${compiler} antlr4_static)
+target_link_libraries(${compiler} ${parser})
+add_dependencies(${compiler} ${parser})
+target_include_directories(${compiler} PUBLIC ${ANTLR4_INCLUDE_DIRS})
+target_include_directories(${compiler} PUBLIC ${ANTLR_KlangParser_OUTPUT_DIR})
+target_include_directories(${compiler} PUBLIC ${KLANG_INCLUDE_DIR})
+
+# precompiled header
+target_precompile_headers(${compiler}
+  PUBLIC
+    <iostream>
+    <memory>
+    <algorithm>
+    <functional>
+    <unordered_map>
+    <unordered_set>
+)
+
+create_symlink(${compiler} ${CMAKE_SOURCE_DIR}/bin)
 
 # testing
 enable_testing()

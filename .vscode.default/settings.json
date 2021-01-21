@@ -7,5 +7,11 @@
         "editor.formatOnSave": true,
         "editor.formatOnType": true
     },
-    "editor.insertSpaces": true
+    "editor.insertSpaces": true,
+    "cmake.debugConfig": {
+        "args": [
+            "testing/working/input.k",
+            "testing/working/input.k.out"
+        ]
+    }
 }

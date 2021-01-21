@@ -12,6 +12,7 @@
 bool IsValidGrammar( std::filesystem::directory_entry const& dirEntry )
 {
   std::string pathToFile { dirEntry.path() };
+
   antlr4::ANTLRFileStream afs { pathToFile };
   KLexer lexer { &afs };
   antlr4::CommonTokenStream tokens { &lexer };

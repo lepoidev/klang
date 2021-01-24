@@ -48,7 +48,6 @@ find_package(ANTLR REQUIRED)
 
 set(PATH_TO_GRAMMAR ${CMAKE_CURRENT_SOURCE_DIR}/grammar/K.g4)
 set(ANTLR4_CPP_GENERATED_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen/)
-set(ANTLR_NAMESPACE "K")
 
 antlr_target(KlangParser
              ${PATH_TO_GRAMMAR}
@@ -57,16 +56,30 @@ antlr_target(KlangParser
 
 add_library(${parser} STATIC ${ANTLR_KlangParser_CXX_OUTPUTS})
 
-# create executable
+# create compiler executable
 set(KLANG_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 set(KLANG_SOURCE_DIR ${CMAKE_SOURCE_DIR}/source)
 add_executable(${compiler} ${ANTLR4_CPP_GENERATED_SRC_DIR})
-add_subdirectory(${KLANG_SOURCE_DIR})
+
+# ANLTR
 target_link_libraries(${compiler} antlr4_static)
+#target_link_libraries(${compiler} ${ANTLR4_RUNTIME_LIBRARIES})
 target_link_libraries(${compiler} ${parser})
 add_dependencies(${compiler} ${parser})
 target_include_directories(${compiler} PUBLIC ${ANTLR4_INCLUDE_DIRS})
 target_include_directories(${compiler} PUBLIC ${ANTLR_KlangParser_OUTPUT_DIR})
+
+# LLVM
+message(STATUS "Searching for LLVMConfig.cmake in ${LLVM_DIR}")
+find_package(LLVM REQUIRED CONFIG)
+message(STATUS "Using LLVM ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
+llvm_map_components_to_libnames(llvm_libs core)
+target_link_libraries(${compiler} ${llvm_libs})
+target_include_directories(${compiler} PUBLIC ${LLVM_INCLUDE_DIRS})
+target_compile_definitions(${compiler} PUBLIC ${LLVM_DEFINITIONS})
+
+# klang
+add_subdirectory(${KLANG_SOURCE_DIR})
 target_include_directories(${compiler} PUBLIC ${KLANG_INCLUDE_DIR})
 
 # precompiled header
@@ -74,10 +87,17 @@ target_precompile_headers(${compiler}
   PUBLIC
     <iostream>
     <memory>
+    <string>
     <algorithm>
     <functional>
     <unordered_map>
     <unordered_set>
+    <llvm/IR/Module.h>
+    <llvm/IR/LLVMContext.h>
+    <llvm/IR/IRBuilder.h>
+    <llvm/IR/Value.h>
+    <llvm/IR/Verifier.h>
+    <llvm/Support/raw_os_ostream.h>
 )
 
 create_symlink(${compiler} ${CMAKE_SOURCE_DIR}/bin)

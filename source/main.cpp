@@ -40,8 +40,7 @@ int main( int argc, char** argv )
 
   // Generate IR
   IRGenerator irGenerator { outputFile };
-  irGenerator.Generate( astRoot );
+  irGenerator.GenerateIR( astRoot );
 
-  std::cout << "Hello world" << std::endl;
   return 0;
 }

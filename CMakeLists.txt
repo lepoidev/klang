@@ -52,6 +52,7 @@ set(ANTLR4_CPP_GENERATED_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen/)
 antlr_target(KlangParser
              ${PATH_TO_GRAMMAR}
              OUTPUT_DIRECTORY ${ANTLR4_CPP_GENERATED_SRC_DIR}
+             DEPENDS antlr4_static
              VISITOR)
 
 add_library(${parser} STATIC ${ANTLR_KlangParser_CXX_OUTPUTS})
@@ -63,8 +64,8 @@ add_executable(${compiler} ${ANTLR4_CPP_GENERATED_SRC_DIR})
 
 # ANLTR
 target_link_libraries(${compiler} antlr4_static)
-#target_link_libraries(${compiler} ${ANTLR4_RUNTIME_LIBRARIES})
 target_link_libraries(${compiler} ${parser})
+add_dependencies(${compiler} antlr4_static)
 add_dependencies(${compiler} ${parser})
 target_include_directories(${compiler} PUBLIC ${ANTLR4_INCLUDE_DIRS})
 target_include_directories(${compiler} PUBLIC ${ANTLR_KlangParser_OUTPUT_DIR})

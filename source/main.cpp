@@ -35,7 +35,7 @@ int main( int argc, char** argv )
 
   // Create AST
   ASTGenerator astGenerator {};
-  auto const astRoot { static_cast<std::shared_ptr<ASTNode>>(
+  auto const astRoot { static_cast<ASTNodePtr>(
     astGenerator.visit( parseTree ) ) };
 
   // Generate IR

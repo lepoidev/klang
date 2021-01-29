@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KLangCommon.h"
 #include "AST/Nodes/ASTNode.h"
 
 class UnaryNode : public ASTNode
@@ -11,4 +12,7 @@ public:
 
 protected:
   ASTNodePtr m_node;
+
+private:
+  UnaryNode();
 };

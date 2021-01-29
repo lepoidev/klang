@@ -1,9 +1,8 @@
 #pragma once
 
 #include "AST/Nodes/ASTNode.h"
-#include "AST/ASTVisitor.h"
 
-class IRGenerator : public ASTVisitor
+class IRGenerator
 {
 public:
   IRGenerator( std::string const& outputFile ) {};

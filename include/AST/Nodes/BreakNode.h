@@ -3,6 +3,6 @@
 #include "KLangCommon.h"
 #include "AST/Nodes/ASTNode.h"
 
-class LiteralNode : public ASTNode
+class BreakNode : public ASTNode
 {
 };

@@ -13,5 +13,6 @@
             "testing/working/input.k",
             "testing/working/input.k.out"
         ]
-    }
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

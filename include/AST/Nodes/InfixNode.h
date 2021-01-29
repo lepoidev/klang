@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KLangCommon.h"
 #include "AST/Nodes/ASTNode.h"
 
 class InfixNode : public ASTNode

@@ -6,12 +6,16 @@ namespace AST
 {
   class Node
   {
-  public:
 #pragma region Constructors / Destructors
+  public:
     Node() : m_type {}
     {
     }
     virtual ~Node() = default;
+#pragma endregion
+
+#pragma region IR Generation
+  public:
     virtual llvm::Value* GenerateIR( IR::Context& ctx ) const = 0;
 #pragma endregion
 
@@ -33,6 +37,7 @@ namespace AST
     ASTTypePtr m_type;
   };
 
+#pragma region Namespace Functions
   template <typename NodeTy>
   auto CastNode( ASTNodePtr const& nodePtr )
   {
@@ -44,4 +49,5 @@ namespace AST
   {
     return std::make_shared<ASTNodeTy>( std::forward<Args>( args )... );
   }
+#pragma endregion
 }

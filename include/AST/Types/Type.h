@@ -41,9 +41,11 @@ namespace AST
 #pragma endregion
   };
 
+#pragma region Namespace Functions
   template <typename ASTTypeTy, typename... Args>
   auto CreateType( Args&&... args )
   {
     return std::make_shared<ASTTypeTy>( std::forward<Args>( args )... );
   }
+#pragma endregion
 }

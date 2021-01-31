@@ -12,28 +12,28 @@ namespace AST
     virtual llvm::Value* GenerateIRInstFrom( ASTNodePtr const& ) const
     {
       return {};
-    };
+    }
     virtual llvm::Value*
     GenerateIRInstFrom( std::vector<ASTNodePtr> const& ) const
     {
       return {};
-    };
+    }
     virtual llvm::Type* GetLLVMType( IR::Context const& ctx )
     {
       return {};
-    };
+    }
     virtual bool const IsSameType( ASTTypePtr const& otherTy ) const
     {
       return {};
-    };
+    }
     virtual bool const CanPromoteTo( ASTTypePtr const& otherTy ) const
     {
       return {};
-    };
+    }
     virtual bool const CanDemoteTo( ASTTypePtr const& otherTy ) const
     {
       return {};
-    };
+    }
 #pragma endregion
   };
 }

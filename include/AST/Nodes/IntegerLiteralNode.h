@@ -9,10 +9,12 @@ namespace AST
   {
     using IntegralLiteralNode<IntegerType, int>::IntegralLiteralNode;
 
+#pragma region IR Generation
   public:
     llvm::Value* GenerateIR( IR::Context& ctx ) const final
     {
       return ctx.GetIRBuilder().getInt32( GetValue() );
     }
+#pragma endregion
   };
 }

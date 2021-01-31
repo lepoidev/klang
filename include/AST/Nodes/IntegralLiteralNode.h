@@ -32,7 +32,7 @@ namespace AST
     ValueTy const GetValue() const
     {
       return m_val;
-    };
+    }
 
   protected:
     void SetValue( ValueTy const val )

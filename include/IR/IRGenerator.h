@@ -7,8 +7,12 @@ namespace IR
   class IRGenerator
   {
   public:
-    IRGenerator( std::string const& outputFile ) {};
-    void GenerateIR( ASTNodePtr const& root ) {};
+    IRGenerator( std::string const& outputFile )
+    {
+    }
+    void GenerateIR( ASTNodePtr const& root )
+    {
+    }
 
   private:
     template <typename NodeTy>

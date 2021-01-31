@@ -16,7 +16,7 @@ namespace AST
 
 #pragma region IR Generation
   public:
-    virtual llvm::Value* GenerateIR( IR::Context& ctx ) const = 0;
+    virtual llvm::Value* GenerateIR( IR::Context const& ctx ) const = 0;
 #pragma endregion
 
 #pragma region Getters / Setter

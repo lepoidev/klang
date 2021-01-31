@@ -5,7 +5,7 @@
 
 namespace AST
 {
-  class IntegerType : public IntegralType
+  class BooleanType : public IntegralType
   {
 #pragma region Overrides
   public:

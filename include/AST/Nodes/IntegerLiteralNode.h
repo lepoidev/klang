@@ -11,7 +11,7 @@ namespace AST
 
 #pragma region IR Generation
   public:
-    llvm::Value* GenerateIR( IR::Context& ctx ) const final
+    llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
       return ctx.GetIRBuilder().getInt32( GetValue() );
     }

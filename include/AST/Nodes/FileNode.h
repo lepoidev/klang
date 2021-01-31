@@ -3,6 +3,9 @@
 #include "KlangCommon.h"
 #include "AST/Nodes/BlockNode.h"
 
-class FileNode : public BlockNode
+namespace AST
 {
-};
+  class FileNode : public BlockNode
+  {
+  };
+}

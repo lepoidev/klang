@@ -1,10 +1,12 @@
 #pragma once
 #include <memory>
-#include "IR/IRContext.h"
+#include "IR/Context.h"
 
-class ASTNode;
-class ASTType;
+namespace AST
+{
+  class Node;
+  class Type;
+}
 
-using ASTNodePtr = std::shared_ptr<ASTNode>;
-using ASTTypePtr = std::shared_ptr<ASTType>;
- 
+using ASTNodePtr = std::shared_ptr<AST::Node>;
+using ASTTypePtr = std::shared_ptr<AST::Type>;

@@ -1,13 +1,16 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Types/ASTType.h"
+#include "AST/Types/Type.h"
 
-class StructuredType : public ASTType
+namespace AST
 {
-public:
-  bool const IsIntegral() final
+  class StructuredType : public Type
   {
-    return false;
-  }
-};
+  public:
+    bool const IsIntegral() final
+    {
+      return false;
+    }
+  };
+}

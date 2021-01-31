@@ -1,14 +1,17 @@
 #pragma once
 
-#include "AST/Nodes/ASTNode.h"
+#include "AST/Nodes/Node.h"
 
-class IRGenerator
+namespace IR
 {
-public:
-  IRGenerator( std::string const& outputFile ) {};
-  void GenerateIR( std::shared_ptr<ASTNode> const& root ) {};
+  class IRGenerator
+  {
+  public:
+    IRGenerator( std::string const& outputFile ) {};
+    void GenerateIR( ASTNodePtr const& root ) {};
 
-private:
-  template <typename NodeTy>
-  llvm::Value* Generate( std::shared_ptr<NodeTy> const& node );
-};
+  private:
+    template <typename NodeTy>
+    llvm::Value* Generate( ASTNodePtr const& node );
+  };
+}

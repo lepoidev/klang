@@ -9,7 +9,7 @@
 #include <tree/ParseTree.h>
 #include <tree/ParseTreeWalker.h>
 
-#include "AST/Nodes/ASTNode.h"
+#include "AST/Nodes/Node.h"
 #include "AST/ASTGenerator.h"
 #include "IR/IRGenerator.h"
 
@@ -34,12 +34,12 @@ int main( int argc, char** argv )
   auto const parseTree { parser.file() };
 
   // Create AST
-  ASTGenerator astGenerator {};
+  AST::ASTGenerator astGenerator {};
   auto const astRoot { static_cast<ASTNodePtr>(
     astGenerator.visit( parseTree ) ) };
 
   // Generate IR
-  IRGenerator irGenerator { outputFile };
+  IR::IRGenerator irGenerator { outputFile };
   irGenerator.GenerateIR( astRoot );
 
   return 0;

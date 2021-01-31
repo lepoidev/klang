@@ -1,16 +1,20 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Nodes/ASTNode.h"
+#include "AST/Nodes/Node.h"
 
-class BlockNode : public ASTNode
+namespace AST
 {
-public:
-  BlockNode( std::vector<ASTNodePtr> const& statements ) :
-    ASTNode {}, m_statments { statements }
+  class BlockNode : public Node
   {
-  }
+  public:
+    BlockNode() = delete;
+    BlockNode( std::vector<ASTNodePtr> const& statements ) :
+      Node {}, m_statments { statements }
+    {
+    }
 
-protected:
-  std::vector<ASTNodePtr> m_statements;
-};
+  protected:
+    std::vector<ASTNodePtr> m_statements;
+  };
+}

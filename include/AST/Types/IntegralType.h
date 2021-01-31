@@ -1,13 +1,16 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Types/ASTType.h"
+#include "AST/Types/Type.h"
 
-class IntegralType : public ASTType
+namespace AST
 {
-public:
-  bool const IsIntegral() const final
+  class IntegralType : public Type
   {
-    return true;
-  }
-};
+  public:
+    bool const IsIntegral() const final
+    {
+      return true;
+    }
+  };
+}

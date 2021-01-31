@@ -1,8 +1,11 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Nodes/ASTNode.h"
+#include "AST/Nodes/Node.h"
 
-class BreakNode : public ASTNode
+namespace AST
 {
-};
+  class BreakNode : public Node
+  {
+  };
+}

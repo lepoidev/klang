@@ -1,17 +1,21 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Nodes/ASTNode.h"
+#include "AST/Nodes/Node.h"
 
-class InfixNode : public ASTNode
+namespace AST
 {
-public:
-  InfixNode( ASTNodePtr const& left, ASTNodePtr const& right ) :
-    ASTNode {}, m_left { left }, m_right { right }
+  class InfixNode : public Node
   {
-  }
+  public:
+    InfixNode() = delete;
+    InfixNode( ASTNodePtr const& left, ASTNodePtr const& right ) :
+      Node {}, m_left { left }, m_right { right }
+    {
+    }
 
-protected:
-  ASTNodePtr m_left;
-  ASTNodePtr m_right;
-};
+  protected:
+    ASTNodePtr m_left;
+    ASTNodePtr m_right;
+  };
+}

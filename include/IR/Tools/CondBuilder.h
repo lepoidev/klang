@@ -1,5 +1,8 @@
 #pragma once
 
-class CondBuilder
+namespace IR
 {
-};
+  class CondBuilder
+  {
+  };
+}

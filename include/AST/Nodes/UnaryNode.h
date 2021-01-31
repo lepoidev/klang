@@ -1,18 +1,19 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Nodes/ASTNode.h"
+#include "AST/Nodes/Node.h"
 
-class UnaryNode : public ASTNode
+namespace AST
 {
-public:
-  UnaryNode( ASTNodePtr const& node ) : ASTNode {}, m_node {}
+  class UnaryNode : public Node
   {
-  }
+  public:
+    UnaryNode() = delete;
+    UnaryNode( ASTNodePtr const& node ) : Node {}, m_node {}
+    {
+    }
 
-protected:
-  ASTNodePtr m_node;
-
-private:
-  UnaryNode();
-};
+  protected:
+    ASTNodePtr m_node;
+  };
+}

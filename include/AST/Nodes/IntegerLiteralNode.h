@@ -3,13 +3,16 @@
 #include "AST/Nodes/IntegralLiteralNode.h"
 #include "AST/Types/IntegerType.h"
 
-class IntegerLiteralNode : public IntegralLiteralNode<IntegerType, int>
+namespace AST
 {
-  using IntegralLiteralNode<IntegerType, int>::IntegralLiteralNode;
-
-public:
-  llvm::Value* GenerateIR( IRContext& ctx ) const final
+  class IntegerLiteralNode : public IntegralLiteralNode<IntegerType, int>
   {
-    return ctx.GetIRBuilder().getInt32( GetValue() );
-  }
-};
+    using IntegralLiteralNode<IntegerType, int>::IntegralLiteralNode;
+
+  public:
+    llvm::Value* GenerateIR( IR::Context& ctx ) const final
+    {
+      return ctx.GetIRBuilder().getInt32( GetValue() );
+    }
+  };
+}

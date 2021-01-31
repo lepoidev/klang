@@ -1,5 +1,8 @@
 #pragma once
 
-class LoopBuilder
+namespace IR
 {
-};
+  class LoopBuilder
+  {
+  };
+}

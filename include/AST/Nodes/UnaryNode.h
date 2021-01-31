@@ -15,7 +15,15 @@ namespace AST
     }
 #pragma endregion
 
+#pragma region Getters / Setters
   protected:
+    ASTNodePtr const& GetNode() const
+    {
+      return m_node;
+    }
+#pragma endregion
+
+  private:
     ASTNodePtr m_node;
   };
 }

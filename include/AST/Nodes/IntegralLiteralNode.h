@@ -28,13 +28,12 @@ namespace AST
 #pragma endregion
 
 #pragma region Getters / Setters
-  public:
+  protected:
     ValueTy const GetValue() const
     {
       return m_val;
     }
 
-  protected:
     void SetValue( ValueTy const val )
     {
       m_val = val;

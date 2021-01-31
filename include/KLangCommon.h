@@ -1,4 +1,6 @@
-//#pragma once
+#pragma once
+
+#include "Tools.h"
 
 #include <iostream>
 #include <memory>
@@ -13,3 +15,5 @@
 #include <llvm/IR/Value.h>
 #include <llvm/IR/Verifier.h>
 #include <llvm/Support/raw_os_ostream.h>
+
+#include "AST/ASTCommon.h"

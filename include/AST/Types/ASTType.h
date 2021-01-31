@@ -1,10 +1,14 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Nodes/ASTNode.h"
 
 class ASTType
 {
+#pragma region Constructors / Destructors
+public:
+  virtual ~ASTType() = default;
+#pragma endregion
+
 #pragma region IR Generation
 public:
   virtual llvm::Value* GenerateIRInstFrom( ASTNodePtr const& ) const = 0;
@@ -18,8 +22,8 @@ public:
   virtual llvm::Type* GetLLVMType( IRContext const& ctx ) = 0;
   llvm::Type::TypeID const GetLLVMTypeID( IRContext const& ctx )
   {
-    return GetLLVMType()->getTypeID();
-  };
+    return GetLLVMType( ctx )->getTypeID();
+  }
 #pragma endregion
 
 #pragma region Conversion
@@ -31,8 +35,15 @@ public:
   {
     return IsSameType( otherTy ) || CanPromoteTo( otherTy ) ||
            CanDemoteTo( otherTy );
-  };
+  }
+#pragma endregion
+
+#pragma region Statics
+public:
+  template <typename ASTTypeTy, typename... Args>
+  static auto CreateType( Args&&... args )
+  {
+    return std::make_shared<ASTTypeTy>( std::forward<Args>( args )... );
+  }
 #pragma endregion
 };
-
-using ASTTypePtr = std::shared_ptr<ASTType>;

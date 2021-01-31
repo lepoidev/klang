@@ -73,12 +73,13 @@ returnStatement
 // literals
 
 literal
-    : BooleanLiteral
-    | BinaryLiteral
-    | IntegerLiteral
-    | CharLiteral
-    | StringLiteral
-    | FloatLiteral
+    : BooleanLiteral # BooleanLiteral
+    | BinaryLiteral  # BinaryLiteral
+    | HexLiteral     # HexLiteral
+    | IntegerLiteral # IntegerLiteral
+    | CharLiteral    # CharLiteral
+    | StringLiteral  # StringLiteral
+    | FloatLiteral   # FloatLiteral
     ;
 
 vectorLiteral
@@ -548,6 +549,10 @@ fragment DecimalConstant
     ;
 
 fragment BinaryConstant
+    : '0b' [0-1]+
+    ;
+
+fragment HexConstant
     : '0x' [0-1]+
     ;
 
@@ -597,6 +602,9 @@ BooleanLiteral
     : BooleanConstant
     ;
 BinaryLiteral
+    : BinaryConstant
+    ;
+HexLiteral
     : BinaryConstant
     ;
 FloatLiteral

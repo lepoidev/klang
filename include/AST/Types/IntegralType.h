@@ -6,7 +6,7 @@
 class IntegralType : public ASTType
 {
 public:
-  bool const IsIntegral() final
+  bool const IsIntegral() const final
   {
     return true;
   }

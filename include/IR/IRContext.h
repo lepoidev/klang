@@ -9,23 +9,26 @@ public:
              llvm::IRBuilder<>& irBuilder,
              llvm::Module& module ) :
     m_globalLLVMContext { globalLLVMContext },
-    m_irBuilder { irBuilder }, m_module { module } {};
+    m_irBuilder { irBuilder }, m_module { module }
+  {
+  }
   virtual ~IRContext() = default;
 #pragma endregion
 
 #pragma region Getters
-  llvm::LLVMContext& GetGlobalLLVMContext()
+public:
+  llvm::LLVMContext& GetGlobalLLVMContext() const
   {
     return m_globalLLVMContext;
-  };
-  llvm::IRBuilder<>& GetIRBuilder()
+  }
+  llvm::IRBuilder<>& GetIRBuilder() const
   {
     return m_irBuilder;
-  };
-  llvm::Module& GetModule()
+  }
+  llvm::Module& GetModule() const
   {
     return m_module;
-  };
+  }
 #pragma endregion
 
 protected:

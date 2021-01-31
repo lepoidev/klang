@@ -10,7 +10,7 @@ int main( int argc, char** argv )
 
   while( true )
   {
-    struct option long_options[] = {
+    struct option long_options[] {
       { "invalid-grammar", no_argument, &expectGrammarFailureFlag, 1 },
       { 0, 0, 0, 0 }
     };

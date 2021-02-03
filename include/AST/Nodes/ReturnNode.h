@@ -7,6 +7,7 @@ namespace AST
 {
   class ReturnNode : public UnaryNode
   {
+    using UnaryNode::UnaryNode;
 #pragma region IR Generation
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
@@ -18,7 +19,7 @@ namespace AST
       }
       else
       {
-        auto const retVal { node.GenerateIR( ctx ) };
+        auto const retVal { node->GenerateIR( ctx ) };
         ctx.GetIRBuilder().CreateRet( retVal );
       }
       return nullptr;

@@ -30,6 +30,7 @@ getting-started.md
 testing/working
 testing/valid_tests
 testing/invalid_tests
+include/Symbols
 
 # vscode
 compile_commands.json

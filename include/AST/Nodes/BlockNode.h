@@ -11,12 +11,20 @@ namespace AST
   public:
     BlockNode() = delete;
     BlockNode( std::vector<ASTNodePtr> const& statements ) :
-      Node {}, m_statments { statements }
+      Node {}, m_statements { statements }
     {
     }
 #pragma endregion
 
-  protected:
+#pragma region Getters / Setters
+  public:
+    auto& GetStatements()
+    {
+      return m_statements;
+    }
+#pragma endregion
+
+  private:
     std::vector<ASTNodePtr> m_statements;
   };
 }

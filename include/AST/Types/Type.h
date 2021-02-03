@@ -13,9 +13,9 @@ namespace AST
 
 #pragma region IR Generation
   public:
-    virtual llvm::Value* GenerateIRInstFrom( ASTNodePtr const& ) const = 0;
+    virtual llvm::Value* GenerateIRInstFrom( ASTNodePtr const& node ) const = 0;
     virtual llvm::Value*
-    GenerateIRInstFrom( std::vector<ASTNodePtr> const& ) const = 0;
+    GenerateIRInstFrom( std::vector<ASTNodePtr> const& node ) const = 0;
 #pragma endregion
 
 #pragma region Type Identification
@@ -42,10 +42,22 @@ namespace AST
   };
 
 #pragma region Namespace Functions
+  template <typename ASTTypeTy>
+  static auto CastType( ASTTypePtr const& nodePtr )
+  {
+    return std::dynamic_pointer_cast<ASTTypeTy>( nodePtr );
+  }
+
   template <typename ASTTypeTy, typename... Args>
-  auto CreateType( Args&&... args )
+  static auto CreateType( Args&&... args )
   {
     return std::make_shared<ASTTypeTy>( std::forward<Args>( args )... );
+  }
+
+  static auto const CreateTypeConverter( IR::Context const& ctx )
+  {
+    return
+      [&]( ASTTypePtr const& astType ) { return astType->GetLLVMType( ctx ); };
   }
 #pragma endregion
 }

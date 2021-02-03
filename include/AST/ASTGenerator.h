@@ -4,14 +4,33 @@
 #include "AST/Nodes/Node.h"
 #include "AST/Nodes/IntegerLiteralNode.h"
 #include "AST/Nodes/BooleanLiteralNode.h"
+#include "AST/Nodes/FunctionNode.h"
+#include "AST/Nodes/ReturnNode.h"
+#include "AST/Nodes/FileNode.h"
 
 namespace AST
 {
   class ASTGenerator : public KBaseVisitor
   {
+    antlrcpp::Any
+    visitReturnStatement( KParser::ReturnStatementContext* ctx ) override
+    {
+      auto const hasExpr { ctx->expr() != nullptr };
+      ASTNodePtr expr { hasExpr ?
+                          static_cast<ASTNodePtr>( visit( ctx->expr() ) ) :
+                          nullptr };
+      return CreateGenericNode<ReturnNode>( expr );
+    }
+
     antlrcpp::Any visitFile( KParser::FileContext* ctx ) override
     {
-      return ASTNodePtr {};
+      std::vector<ASTNodePtr> statements {};
+      for( auto& functionDeclare : ctx->functionDeclare() )
+      {
+        statements.push_back(
+          static_cast<ASTNodePtr>( visit( functionDeclare ) ) );
+      }
+      return CreateGenericNode<FileNode>( statements );
     }
 
     antlrcpp::Any
@@ -19,7 +38,22 @@ namespace AST
     {
       std::string const text { ctx->getText() };
       auto const val { std::stoi( text ) };
-      return CreateNode<IntegerLiteralNode>( val );
+      return CreateGenericNode<IntegerLiteralNode>( val );
+    }
+
+    antlrcpp::Any
+    visitFunctionDeclare( KParser::FunctionDeclareContext* ctx ) override
+    {
+      auto const& functionIdentifier { ctx->functionIdentifier() };
+      std::string const functionName {
+        functionIdentifier->functionName->getText()
+      };
+      std::vector<ASTTypePtr> paramTypes {};
+      auto const& returnType { CreateType<IntegerType>() };
+      auto const& funcBody { static_cast<ASTNodePtr>(
+        visit( ctx->statement() ) ) };
+      return CreateGenericNode<FunctionNode>(
+        functionName, paramTypes, returnType, funcBody );
     }
 
     antlrcpp::Any
@@ -27,7 +61,7 @@ namespace AST
     {
       std::string const text { ctx->getText() };
       auto const val { text == "true" };
-      return CreateNode<BooleanLiteralNode>( val );
+      return CreateGenericNode<BooleanLiteralNode>( val );
     }
   };
 }

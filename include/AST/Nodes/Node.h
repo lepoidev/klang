@@ -39,15 +39,25 @@ namespace AST
 
 #pragma region Namespace Functions
   template <typename NodeTy>
-  auto CastNode( ASTNodePtr const& nodePtr )
+  static auto CastNode( ASTNodePtr const& nodePtr )
   {
     return std::dynamic_pointer_cast<NodeTy>( nodePtr );
   }
 
   template <typename ASTNodeTy, typename... Args>
-  auto CreateNode( Args&&... args )
+  static auto CreateNode( Args&&... args )
   {
-    return std::make_shared<ASTNodeTy>( std::forward<Args>( args )... );
+    std::make_shared<ASTNodeTy>( std::forward<Args>( args )... );
   }
+
+  template <typename ASTNodeTy, typename... Args>
+  static auto CreateGenericNode( Args&&... args )
+  {
+    return CastNode<Node>(
+      std::make_shared<ASTNodeTy>( std::forward<Args>( args )... ) );
+  }
+
+  template <typename ASTNodeTy>
+  using NodePtr = std::shared_ptr<ASTNodeTy>;
 #pragma endregion
 }

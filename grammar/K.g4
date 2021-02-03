@@ -118,7 +118,7 @@ expr
 // functions
 
 functionIdentifier
-    : Function (Identifier | Main) parameters (Returns type)?
+    : Function functionName=(Identifier | Main) parameters (Returns type)?
     ;
 
 functionDeclare

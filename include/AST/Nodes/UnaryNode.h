@@ -10,7 +10,7 @@ namespace AST
 #pragma region Constructors / Destructors
   public:
     UnaryNode() = delete;
-    UnaryNode( ASTNodePtr const& node ) : Node {}, m_node {}
+    UnaryNode( ASTNodePtr const& node ) : Node {}, m_node { node }
     {
     }
 #pragma endregion

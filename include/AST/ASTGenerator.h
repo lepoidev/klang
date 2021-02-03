@@ -7,6 +7,7 @@
 #include "AST/Nodes/FunctionNode.h"
 #include "AST/Nodes/ReturnNode.h"
 #include "AST/Nodes/FileNode.h"
+#include "AST/Nodes/BlockNode.h"
 
 namespace AST
 {
@@ -62,6 +63,17 @@ namespace AST
       std::string const text { ctx->getText() };
       auto const val { text == "true" };
       return CreateGenericNode<BooleanLiteralNode>( val );
+    }
+
+    antlrcpp::Any
+    visitBlockStatement( KParser::BlockStatementContext* ctx ) override
+    {
+      std::vector<ASTNodePtr> statements {};
+      for( auto& statement : ctx->statement() )
+      {
+        statements.push_back( static_cast<ASTNodePtr>( visit( statement ) ) );
+      }
+      return CreateGenericNode<BlockNode>( statements );
     }
   };
 }

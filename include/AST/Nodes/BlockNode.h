@@ -18,9 +18,21 @@ namespace AST
 
 #pragma region Getters / Setters
   public:
-    auto& GetStatements()
+    auto const& GetStatements() const
     {
       return m_statements;
+    }
+#pragma endregion
+
+#pragma region IR Generation
+  public:
+    llvm::Value* GenerateIR( IR::Context const& ctx ) const final
+    {
+      for( auto const& statement : GetStatements() )
+      {
+        statement->GenerateIR( ctx );
+      }
+      return {};
     }
 #pragma endregion
 

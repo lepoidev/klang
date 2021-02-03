@@ -10,8 +10,8 @@
     "editor.insertSpaces": true,
     "cmake.debugConfig": {
         "args": [
-            "testing/working/input.k",
-            "testing/working/input.k.out"
+            "${workspaceFolder}/testing/working/input.k",
+            "${workspaceFolder}/testing/working/input.ll"
         ]
     },
     "C_Cpp.intelliSenseEngineFallback": "Enabled"

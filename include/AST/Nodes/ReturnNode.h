@@ -22,7 +22,7 @@ namespace AST
         auto const retVal { node->GenerateIR( ctx ) };
         ctx.GetIRBuilder().CreateRet( retVal );
       }
-      return nullptr;
+      return {};
     }
 #pragma endregion
   };

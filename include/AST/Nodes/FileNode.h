@@ -32,7 +32,7 @@ namespace AST
       {
         statement->GenerateIR( ctx );
       }
-      return nullptr;
+      return {};
     }
 #pragma endregion
   private:

@@ -7,10 +7,12 @@ namespace AST
 {
   class IntegralType : public Type
   {
+#pragma region Overrides
   public:
     bool const IsIntegral() const final
     {
       return true;
     }
+#pragma endregion
   };
 }

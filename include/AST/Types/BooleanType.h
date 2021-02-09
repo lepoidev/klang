@@ -24,7 +24,7 @@ namespace AST
     }
     bool const IsSameType( ASTTypePtr const& otherTy ) const override
     {
-      return {};
+      return CastType<BooleanType>( otherTy ) != nullptr;
     }
     bool const CanPromoteTo( ASTTypePtr const& otherTy ) const override
     {
@@ -33,6 +33,15 @@ namespace AST
     bool const CanDemoteTo( ASTTypePtr const& otherTy ) const override
     {
       return {};
+    }
+#pragma endregion
+
+#pragma region Operations
+    llvm::Value* CreateEQ( IR::Context const& ctx,
+                           llvm::Value* left,
+                           llvm::Value* right ) const final
+    {
+      return ctx.GetIRBuilder().CreateICmpEQ( left, right );
     }
 #pragma endregion
   };

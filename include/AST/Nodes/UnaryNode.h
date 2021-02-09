@@ -17,7 +17,7 @@ namespace AST
 
 #pragma region Getters / Setters
   protected:
-    ASTNodePtr const& GetNode() const
+    auto const& GetNode() const
     {
       return m_node;
     }

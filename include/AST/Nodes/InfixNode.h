@@ -16,7 +16,19 @@ namespace AST
     }
 #pragma endregion
 
-  protected:
+#pragma region Getters / Setter
+  public:
+    auto const& GetLeft() const
+    {
+      return m_left;
+    }
+    auto const& GetRight() const
+    {
+      return m_right;
+    }
+#pragma endregion
+
+  private:
     ASTNodePtr m_left;
     ASTNodePtr m_right;
   };

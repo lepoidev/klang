@@ -1,6 +1,5 @@
 #pragma once
 #include <memory>
-#include "Bootstrap.h"
 
 namespace AST
 {

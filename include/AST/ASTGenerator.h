@@ -8,6 +8,7 @@
 #include "AST/Nodes/ReturnNode.h"
 #include "AST/Nodes/FileNode.h"
 #include "AST/Nodes/BlockNode.h"
+#include "AST/Nodes/EqNode.h"
 
 namespace AST
 {

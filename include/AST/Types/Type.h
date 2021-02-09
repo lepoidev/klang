@@ -39,6 +39,14 @@ namespace AST
              CanDemoteTo( otherTy );
     }
 #pragma endregion
+
+#pragma region Boolean Operations
+  public:
+    virtual llvm::Value* CreateEQ( IR::Context const& ctx,
+                                   llvm::Value* left,
+                                   llvm::Value* right ) const = 0;
+
+#pragma endregion
   };
 
 #pragma region Namespace Functions

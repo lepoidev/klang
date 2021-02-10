@@ -38,13 +38,20 @@ namespace AST
       return IsSameType( otherTy ) || CanPromoteTo( otherTy ) ||
              CanDemoteTo( otherTy );
     }
+    static void
+    VerifySameType( ASTNodePtr const& left, ASTNodePtr const& right )
+    {
+      auto const& leftType { left->GetType() };
+      auto const& rightType { right->GetType() };
+      assert( leftType->IsSameType( rightType ) );
+    }
 #pragma endregion
 
 #pragma region Boolean Operations
   public:
     virtual llvm::Value* CreateEQ( IR::Context const& ctx,
-                                   llvm::Value* left,
-                                   llvm::Value* right ) const = 0;
+                                   ASTNodePtr const& left,
+                                   ASTNodePtr const& right ) const = 0;
 
 #pragma endregion
   };

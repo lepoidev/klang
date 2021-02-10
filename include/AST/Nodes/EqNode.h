@@ -11,14 +11,8 @@ namespace AST
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
-      auto const& leftType { GetLeft()->GetType() };
-      auto const& rightType { GetRight()->GetType() };
-      assert( leftType->IsSameType( rightType ) );
-
-      auto const left { GetLeft()->GenerateIR( ctx ) };
-      auto const right { GetRight()->GenerateIR( ctx ) };
-
-      auto const res { leftType->CreateEQ( ctx, left, right ) };
+      auto const operandType { GetLeft()->GetType() };
+      auto const res { operandType->CreateEQ( ctx, GetLeft(), GetRight() ) };
       return res;
     }
 #pragma endregion

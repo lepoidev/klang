@@ -38,10 +38,13 @@ namespace AST
 
 #pragma region Operations
     llvm::Value* CreateEQ( IR::Context const& ctx,
-                           llvm::Value* left,
-                           llvm::Value* right ) const final
+                           ASTNodePtr const& left,
+                           ASTNodePtr const& right ) const final
     {
-      return ctx.GetIRBuilder().CreateICmpEQ( left, right );
+      VerifySameType( left, right );
+      auto const leftIR { left->GenerateIR( ctx ) };
+      auto const rightIR { right->GenerateIR( ctx ) };
+      return ctx.GetIRBuilder().CreateICmpEQ( leftIR, rightIR );
     }
 #pragma endregion
   };

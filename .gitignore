@@ -10,6 +10,9 @@ build
 gen
 antlr4_runtime
 
+# KLang generated
+ASTNodes.h
+
 # CMAKE
 *CMakeCache.txt
 *CMakeFiles/
@@ -35,5 +38,8 @@ include/Symbols
 # vscode
 compile_commands.json
 .vscode/
+
+# llvm
+*.ll
 
 .DS_STORE

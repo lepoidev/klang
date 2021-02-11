@@ -57,9 +57,14 @@ antlr_target(KlangParser
 
 add_library(${parser} STATIC ${ANTLR_KlangParser_CXX_OUTPUTS})
 
-# create compiler executable
+# set source vars
 set(KLANG_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 set(KLANG_SOURCE_DIR ${CMAKE_SOURCE_DIR}/source)
+
+# generate AST headers
+include(CreateASTNodesHeader REQUIRED)
+
+# create compiler executable
 add_executable(${compiler} ${ANTLR4_CPP_GENERATED_SRC_DIR})
 
 # ANLTR

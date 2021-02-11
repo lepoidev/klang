@@ -1,15 +1,7 @@
 #pragma once
 
 #include <KBaseVisitor.h>
-#include "AST/Nodes/Node.h"
-#include "AST/Nodes/IntegerLiteralNode.h"
-#include "AST/Nodes/BooleanLiteralNode.h"
-#include "AST/Nodes/FunctionNode.h"
-#include "AST/Nodes/ReturnNode.h"
-#include "AST/Nodes/FileNode.h"
-#include "AST/Nodes/BlockNode.h"
-#include "AST/Nodes/EqNode.h"
-#include "AST/Nodes/CondNode.h"
+#include "AST/ASTNodes.h"
 
 namespace AST
 {
@@ -95,7 +87,6 @@ namespace AST
     antlrcpp::Any visitConditionalStatement(
       KParser::ConditionalStatementContext* ctx ) override
     {
-      // auto const tmp = visit( ctx->condition()->expr() );
       auto const condExpr { static_cast<ASTNodePtr>(
         visit( ctx->condition()->expr() ) ) };
       auto const thenStatement { static_cast<ASTNodePtr>(

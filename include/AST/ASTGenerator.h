@@ -9,6 +9,7 @@
 #include "AST/Nodes/FileNode.h"
 #include "AST/Nodes/BlockNode.h"
 #include "AST/Nodes/EqNode.h"
+#include "AST/Nodes/CondNode.h"
 
 namespace AST
 {
@@ -18,9 +19,9 @@ namespace AST
     visitReturnStatement( KParser::ReturnStatementContext* ctx ) override
     {
       auto const hasExpr { ctx->expr() != nullptr };
-      ASTNodePtr expr { hasExpr ?
-                          static_cast<ASTNodePtr>( visit( ctx->expr() ) ) :
-                          nullptr };
+      ASTNodePtr const expr {
+        hasExpr ? static_cast<ASTNodePtr>( visit( ctx->expr() ) ) : nullptr
+      };
       return CreateGenericNode<ReturnNode>( expr );
     }
 
@@ -75,6 +76,36 @@ namespace AST
         statements.push_back( static_cast<ASTNodePtr>( visit( statement ) ) );
       }
       return CreateGenericNode<BlockNode>( statements );
+    }
+
+    antlrcpp::Any visitBooleanExpr( KParser::BooleanExprContext* ctx ) override
+    {
+      auto const left { static_cast<ASTNodePtr>( visit( ctx->left ) ) };
+      auto const right { static_cast<ASTNodePtr>( visit( ctx->right ) ) };
+      if( auto const& compOp { ctx->equalityOperation() }; compOp != nullptr )
+      {
+        if( compOp->IsEqual() != nullptr )
+        {
+          return CreateGenericNode<EqNode>( left, right );
+        }
+      }
+      return visitChildren( ctx );
+    }
+
+    antlrcpp::Any visitConditionalStatement(
+      KParser::ConditionalStatementContext* ctx ) override
+    {
+      // auto const tmp = visit( ctx->condition()->expr() );
+      auto const condExpr { static_cast<ASTNodePtr>(
+        visit( ctx->condition()->expr() ) ) };
+      auto const thenStatement { static_cast<ASTNodePtr>(
+        visit( ctx->statement().at( 0 ) ) ) };
+      ASTNodePtr const elseStatement { ctx->statement().size() > 1 ?
+                                         static_cast<ASTNodePtr>(
+                                           visit( ctx->statement().at( 1 ) ) ) :
+                                         nullptr };
+      return CreateGenericNode<CondNode>(
+        condExpr, thenStatement, elseStatement );
     }
   };
 }

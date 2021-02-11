@@ -37,6 +37,7 @@ namespace AST
 #pragma endregion
 
 #pragma region Operations
+  public:
     llvm::Value* CreateEQ( IR::Context const& ctx,
                            ASTNodePtr const& left,
                            ASTNodePtr const& right ) const final

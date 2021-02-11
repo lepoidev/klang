@@ -38,6 +38,10 @@ namespace AST
       return IsSameType( otherTy ) || CanPromoteTo( otherTy ) ||
              CanDemoteTo( otherTy );
     }
+#pragma endregion
+
+#pragma region Verification
+  protected:
     static void
     VerifySameType( ASTNodePtr const& left, ASTNodePtr const& right )
     {

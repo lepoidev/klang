@@ -7,6 +7,7 @@ namespace AST
 {
   class EqNode : public BooleanInfixNode
   {
+    using BooleanInfixNode::BooleanInfixNode;
 #pragma region IR Generation
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final

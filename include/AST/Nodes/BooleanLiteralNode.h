@@ -14,7 +14,7 @@ namespace AST
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
       auto const val { GetValue() };
-      return ctx.GetIRBuilder().getInt8( val );
+      return val ? ctx.GetIRBuilder().getTrue() : ctx.GetIRBuilder().getFalse();
     }
 #pragma endregion
   };

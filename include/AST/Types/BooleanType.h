@@ -20,7 +20,7 @@ namespace AST
     }
     llvm::Type* GetLLVMType( IR::Context const& ctx ) override
     {
-      return ctx.GetIRBuilder().getInt8Ty();
+      return ctx.GetIRBuilder().getInt1Ty();
     }
     bool const IsSameType( ASTTypePtr const& otherTy ) const override
     {

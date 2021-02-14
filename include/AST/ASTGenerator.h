@@ -98,5 +98,20 @@ namespace AST
       return CreateGenericNode<CondNode>(
         condExpr, thenStatement, elseStatement );
     }
+
+    antlrcpp::Any visitFunctionCallStatement(
+      KParser::FunctionCallStatementContext* ctx ) override
+    {
+      return visit( ctx->functionCall() );
+    }
+
+    antlrcpp::Any visitAssertExpr( KParser::AssertExprContext* ctx ) override
+    {
+      auto const exprNode { static_cast<ASTNodePtr>( visit( ctx->expr() ) ) };
+      auto const expr { ctx->expr()->getText() };
+      auto const line { ctx->getStart()->getLine() };
+      auto const file { "file" };
+      return CreateGenericNode<AssertNode>( file, expr, line, exprNode );
+    }
   };
 }

@@ -1,4 +1,4 @@
-macro(add_tests_from_folder test_folder prefix tester args)
+macro(add_grammar_tests_from_folder test_folder prefix tester args)
     find_all_k_files(tests ${test_folder})
     foreach(k_file ${tests})
         get_filename_component(filename ${k_file} NAME_WE)

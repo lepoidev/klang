@@ -12,7 +12,8 @@ target_include_directories(${grammar_tester} PUBLIC ${ANTLR_KlangParser_OUTPUT_D
 target_include_directories(${grammar_tester} PUBLIC ${TESTING_PATH}/include)
 
 # add passing grammar tests
-add_tests_from_folder(${TESTING_PATH}/valid_tests "valid_grammar_" ${TESTING_BIN}/${grammar_tester} "")
+add_grammar_tests_from_folder(${TESTING_PATH}/valid_tests "valid_grammar_" ${TESTING_BIN}/${grammar_tester} "")
 
 # add failing grammar tests
-add_tests_from_folder(${TESTING_PATH}/invalid_tests/grammar_failures "invalid_grammar_" ${TESTING_BIN}/${grammar_tester} "-i")
+add_grammar_tests_from_folder(${TESTING_PATH}/invalid_tests/grammar_failures "invalid_grammar_" ${TESTING_BIN}/${grammar_tester} "-i")
+

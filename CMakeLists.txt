@@ -9,6 +9,7 @@ include(CTest)
 include("${CMAKE_SOURCE_DIR}/cmake/create_symlink.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/find_all_k_files.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/add_grammar_tests_from_folder.cmake")
+include("${CMAKE_SOURCE_DIR}/cmake/add_compiled_tests_from_folder.cmake")
 
 option(ENABLE_TESTING "Testing Enabled" ON)
 enable_testing()

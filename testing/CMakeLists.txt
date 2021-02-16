@@ -17,3 +17,5 @@ add_grammar_tests_from_folder(${TESTING_PATH}/valid_tests "valid_grammar_" ${TES
 # add failing grammar tests
 add_grammar_tests_from_folder(${TESTING_PATH}/invalid_tests/grammar_failures "invalid_grammar_" ${TESTING_BIN}/${grammar_tester} "-i")
 
+# add compile and run tests
+add_compiled_tests_from_folder(${TESTING_PATH}/valid_tests/statements/conditionals "compile_and_run_" "$<TARGET_FILE:${compiler}>" "")

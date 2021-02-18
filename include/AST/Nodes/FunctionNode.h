@@ -73,6 +73,18 @@ namespace AST
 
       GetFuncBody()->GenerateIR( ctx );
 
+      if( not( llvmFunction->getBasicBlockList().back().getTerminator() ) )
+      {
+        if( auto const& retTy { GetReturnType() }; retTy == nullptr )
+        {
+          ctx.GetIRBuilder().CreateRetVoid();
+        }
+        else
+        {
+          ctx.GetIRBuilder().CreateRet( retTy->GenerateDefaultIRInst( ctx ) );
+        }
+      }
+
       return llvmFunction;
     }
 #pragma endregion

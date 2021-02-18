@@ -13,9 +13,18 @@ namespace AST
 
 #pragma region IR Generation
   public:
-    virtual llvm::Value* GenerateIRInstFrom( ASTNodePtr const& node ) const = 0;
     virtual llvm::Value*
-    GenerateIRInstFrom( std::vector<ASTNodePtr> const& node ) const = 0;
+    GenerateDefaultIRInst( IR::Context const& ctx ) const = 0;
+    virtual llvm::Value* GenerateIRInstFrom( IR::Context const& ctx,
+                                             ASTNodePtr const& node ) const = 0;
+    virtual llvm::Value*
+    GenerateIRInstFrom( IR::Context const& ctx,
+                        std::vector<ASTNodePtr> const& node ) const = 0;
+#pragma endregion
+
+#pragma region Printing
+// public:
+//  virtual
 #pragma endregion
 
 #pragma region Type Identification

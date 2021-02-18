@@ -9,12 +9,19 @@ namespace AST
   {
 #pragma region Overrides
   public:
-    llvm::Value* GenerateIRInstFrom( ASTNodePtr const& node ) const override
+    virtual llvm::Value*
+    GenerateDefaultIRInst( IR::Context const& ctx ) const override
+    {
+      return ctx.GetIRBuilder().getInt32( 0 );
+    }
+    llvm::Value* GenerateIRInstFrom( IR::Context const& ctx,
+                                     ASTNodePtr const& node ) const override
     {
       return {};
     }
     llvm::Value*
-    GenerateIRInstFrom( std::vector<ASTNodePtr> const& node ) const override
+    GenerateIRInstFrom( IR::Context const& ctx,
+                        std::vector<ASTNodePtr> const& node ) const override
     {
       return {};
     }

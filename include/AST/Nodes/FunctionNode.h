@@ -66,9 +66,6 @@ namespace AST
       auto const entryPoint { llvm::BasicBlock::Create(
         ctx.GetGlobalLLVMContext(), entryName, llvmFunction ) };
 
-      // llvmFunction->getBasicBlockList()
-      //  .push_back()
-
       ctx.GetIRBuilder().SetInsertPoint( entryPoint );
 
       GetFuncBody()->GenerateIR( ctx );

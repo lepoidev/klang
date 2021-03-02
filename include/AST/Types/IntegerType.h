@@ -49,11 +49,49 @@ namespace AST
                            ASTNodePtr const& left,
                            ASTNodePtr const& right ) const final
     {
-      VerifySameType( left, right );
-      auto const leftIR { left->GenerateIR( ctx ) };
-      auto const rightIR { right->GenerateIR( ctx ) };
-      return ctx.GetIRBuilder().CreateICmpEQ( leftIR, rightIR );
+      return CreateInfixOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateICmpEQ );
     }
+
+    llvm::Value* CreateNEQ( IR::Context const& ctx,
+                            ASTNodePtr const& left,
+                            ASTNodePtr const& right ) const final
+    {
+      return CreateInfixOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateICmpNE );
+    }
+
+    llvm::Value* CreateGT( IR::Context const& ctx,
+                           ASTNodePtr const& left,
+                           ASTNodePtr const& right ) const final
+    {
+      return CreateInfixOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateICmpSGT );
+    };
+
+    llvm::Value* CreateGTE( IR::Context const& ctx,
+                            ASTNodePtr const& left,
+                            ASTNodePtr const& right ) const final
+    {
+      return CreateInfixOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateICmpSGE );
+    };
+
+    llvm::Value* CreateLT( IR::Context const& ctx,
+                           ASTNodePtr const& left,
+                           ASTNodePtr const& right ) const final
+    {
+      return CreateInfixOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateICmpSLT );
+    };
+
+    llvm::Value* CreateLTE( IR::Context const& ctx,
+                            ASTNodePtr const& left,
+                            ASTNodePtr const& right ) const final
+    {
+      return CreateInfixOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateICmpSLE );
+    };
 #pragma endregion
   };
 }

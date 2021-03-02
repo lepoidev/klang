@@ -11,6 +11,17 @@ namespace AST
     virtual ~Type() = default;
 #pragma endregion
 
+#pragma region Type Errors
+    class OperationNotSupportedError : public std::logic_error
+    {
+    public:
+      OperationNotSupportedError() :
+        std::logic_error { "Operation Not Supported" }
+      {
+      }
+    };
+#pragma endregion
+
 #pragma region IR Generation
   public:
     virtual llvm::Value*
@@ -62,9 +73,68 @@ namespace AST
 
 #pragma region Boolean Operations
   public:
+    virtual std::pair<llvm::Value*, llvm::Value*>
+    GenerateLR( IR::Context const& ctx,
+                ASTNodePtr const& left,
+                ASTNodePtr const& right ) const
+    {
+      VerifySameType( left, right );
+      auto const leftIR { left->GenerateIR( ctx ) };
+      auto const rightIR { right->GenerateIR( ctx ) };
+      return { leftIR, rightIR };
+    }
+
+    template <typename FuncTy>
+    llvm::Value* CreateInfixOp( IR::Context const& ctx,
+                                ASTNodePtr const& left,
+                                ASTNodePtr const& right,
+                                FuncTy const& func ) const
+    {
+      auto const [leftIR, rightIR] { GenerateLR( ctx, left, right ) };
+      return std::invoke( func, ctx.GetIRBuilder(), leftIR, rightIR, "" );
+    }
+
     virtual llvm::Value* CreateEQ( IR::Context const& ctx,
                                    ASTNodePtr const& left,
-                                   ASTNodePtr const& right ) const = 0;
+                                   ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
+
+    virtual llvm::Value* CreateNEQ( IR::Context const& ctx,
+                                    ASTNodePtr const& left,
+                                    ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
+
+    virtual llvm::Value* CreateGT( IR::Context const& ctx,
+                                   ASTNodePtr const& left,
+                                   ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
+
+    virtual llvm::Value* CreateGTE( IR::Context const& ctx,
+                                    ASTNodePtr const& left,
+                                    ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
+
+    virtual llvm::Value* CreateLT( IR::Context const& ctx,
+                                   ASTNodePtr const& left,
+                                   ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
+
+    virtual llvm::Value* CreateLTE( IR::Context const& ctx,
+                                    ASTNodePtr const& left,
+                                    ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
 
 #pragma endregion
   };

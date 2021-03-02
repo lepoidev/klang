@@ -74,11 +74,35 @@ namespace AST
     {
       auto const left { static_cast<ASTNodePtr>( visit( ctx->left ) ) };
       auto const right { static_cast<ASTNodePtr>( visit( ctx->right ) ) };
-      if( auto const& compOp { ctx->equalityOperation() }; compOp != nullptr )
+      if( auto const& eqOp { ctx->equalityOperation() }; eqOp != nullptr )
       {
-        if( compOp->IsEqual() != nullptr )
+        if( eqOp->IsEqual() != nullptr )
         {
-          return CreateGenericNode<EqNode>( left, right );
+          return CreateGenericNode<EQNode>( left, right );
+        }
+        else if( eqOp->NotIsEqual() != nullptr )
+        {
+          return CreateGenericNode<NEQNode>( left, right );
+        }
+      }
+      else if( auto const& cmpOp { ctx->comparisonOperation() };
+               cmpOp != nullptr )
+      {
+        if( cmpOp->CloseAngle() != nullptr )
+        {
+          return CreateGenericNode<LTNode>( left, right );
+        }
+        else if( cmpOp->LessEqual() != nullptr )
+        {
+          return CreateGenericNode<LTENode>( left, right );
+        }
+        else if( cmpOp->OpenAngle() != nullptr )
+        {
+          return CreateGenericNode<GTNode>( left, right );
+        }
+        else if( cmpOp->GreaterEqual() != nullptr )
+        {
+          return CreateGenericNode<GTENode>( left, right );
         }
       }
       return visitChildren( ctx );

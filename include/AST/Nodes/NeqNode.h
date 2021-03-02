@@ -5,7 +5,7 @@
 
 namespace AST
 {
-  class EQNode : public BooleanInfixNode
+  class NEQNode : public BooleanInfixNode
   {
     using BooleanInfixNode::BooleanInfixNode;
 #pragma region IR Generation
@@ -13,7 +13,7 @@ namespace AST
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
       auto const operandType { GetLeft()->GetType() };
-      auto const res { operandType->CreateEQ( ctx, GetLeft(), GetRight() ) };
+      auto const res { operandType->CreateNEQ( ctx, GetLeft(), GetRight() ) };
       return res;
     }
 #pragma endregion

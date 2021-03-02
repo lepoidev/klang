@@ -29,7 +29,6 @@ DartConfiguration.tcl
 
 # in progress
 setup/
-getting-started.md
 testing/working
 testing/valid_tests
 testing/invalid_tests

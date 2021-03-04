@@ -95,6 +95,7 @@ target_precompile_headers(${compiler}
     <iostream>
     <memory>
     <string>
+    <deque>
     <algorithm>
     <functional>
     <unordered_map>

@@ -12,6 +12,7 @@ namespace AST
 #pragma endregion
 
 #pragma region Type Errors
+  public:
     class OperationNotSupportedError : public std::logic_error
     {
     public:

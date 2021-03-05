@@ -11,6 +11,7 @@ public:
 #pragma endregion
 
 #pragma region Errors
+public:
   class UndefinedSymbolError : public std::logic_error
   {
   public:

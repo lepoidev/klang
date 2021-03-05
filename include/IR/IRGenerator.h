@@ -28,7 +28,8 @@ namespace IR
       llvm::LLVMContext globalLLVMContext {};
       llvm::IRBuilder<> irBuilder { globalLLVMContext };
       llvm::Module mod { m_moduleName, globalLLVMContext };
-      Context ctx { globalLLVMContext, irBuilder, mod };
+      SymbolTable symbolTable;
+      Context ctx { globalLLVMContext, irBuilder, mod, symbolTable };
 
       root->GenerateIR( ctx );
 

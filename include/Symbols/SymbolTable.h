@@ -10,6 +10,18 @@ public:
   SymbolTable() = default;
 #pragma endregion
 
+#pragma region Errors
+  class UndefinedSymbolError : public std::logic_error
+  {
+  public:
+    UndefinedSymbolError() = delete;
+    UndefinedSymbolError( std::string const& symbolName ) :
+      std::logic_error { "Undefined Symbol \'" + symbolName + "\'" }
+    {
+    }
+  };
+#pragma endregion
+
 #pragma region Scope Interations
   void PushNewScope()
   {

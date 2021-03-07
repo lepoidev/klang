@@ -7,6 +7,7 @@ namespace AST
 {
   class IntegralType : public Type
   {
+    using Type::Type;
 #pragma region Overrides
   public:
     bool const IsIntegral() const final

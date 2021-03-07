@@ -8,7 +8,7 @@ namespace AST
   class StructuredType : public Type
   {
   public:
-    bool const IsIntegral() final
+    bool const IsIntegral() const final
     {
       return false;
     }

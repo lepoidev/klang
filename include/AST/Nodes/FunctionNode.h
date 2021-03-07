@@ -2,6 +2,7 @@
 
 #include "KLangCommon.h"
 #include "AST/Nodes/BlockNode.h"
+#include "AST/Types/FunctionType.h"
 
 namespace AST
 {
@@ -11,13 +12,13 @@ namespace AST
   public:
     FunctionNode() = delete;
     FunctionNode( std::string const& functionName,
-                  std::vector<ASTTypePtr> const& paramTypes,
                   ASTTypePtr const& returnType,
+                  std::vector<ASTTypePtr> const& paramTypes,
                   ASTNodePtr const& funcBody ) :
       Node {},
-      m_functionName { functionName }, m_paramTypes { paramTypes },
-      m_returnType { returnType }, m_funcBody { funcBody }
+      m_functionName { functionName }, m_funcBody { funcBody }
     {
+      SetType( CreateGenericType<FunctionType>( returnType, paramTypes ) );
     }
 #pragma endregion
 
@@ -27,13 +28,17 @@ namespace AST
     {
       return m_functionName;
     }
+    auto const GetFuncType() const
+    {
+      return CastType<FunctionType>( GetType() );
+    }
     auto const GetParamTypes() const
     {
-      return m_paramTypes;
+      return GetFuncType()->GetParamTypes();
     }
     auto const GetReturnType() const
     {
-      return m_returnType;
+      return GetFuncType()->GetReturnType();
     }
     auto const GetFuncBody() const
     {
@@ -68,7 +73,9 @@ namespace AST
 
       ctx.GetIRBuilder().SetInsertPoint( entryPoint );
 
+      ctx.GetSymbolTable().PushNewScope();
       GetFuncBody()->GenerateIR( ctx );
+      ctx.GetSymbolTable().PopScope();
 
       if( not( llvmFunction->getBasicBlockList().back().getTerminator() ) )
       {
@@ -88,8 +95,6 @@ namespace AST
 
   private:
     std::string m_functionName;
-    std::vector<ASTTypePtr> m_paramTypes;
-    ASTTypePtr m_returnType;
     ASTNodePtr m_funcBody;
   };
 }

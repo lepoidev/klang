@@ -2,6 +2,7 @@
 
 #include <KBaseVisitor.h>
 #include "AST/ASTNodes.h"
+#include "AST/ASTTypes.h"
 
 namespace AST
 {
@@ -48,7 +49,7 @@ namespace AST
       auto const& funcBody { static_cast<ASTNodePtr>(
         visit( ctx->statement() ) ) };
       return CreateGenericNode<FunctionNode>(
-        functionName, paramTypes, returnType, funcBody );
+        functionName, returnType, paramTypes, funcBody );
     }
 
     antlrcpp::Any

@@ -7,6 +7,7 @@ namespace AST
 {
   class IntegerType : public IntegralType
   {
+    using IntegralType::IntegralType;
 #pragma region Overrides
   public:
     virtual llvm::Value*

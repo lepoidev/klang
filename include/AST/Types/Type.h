@@ -9,6 +9,9 @@ namespace AST
 #pragma region Constructors / Destructors
   public:
     virtual ~Type() = default;
+    Type( bool const isMut = false ) : m_isMut { isMut }
+    {
+    }
 #pragma endregion
 
 #pragma region Type Errors
@@ -34,10 +37,8 @@ namespace AST
                         std::vector<ASTNodePtr> const& node ) const = 0;
 #pragma endregion
 
-#pragma region Printing
-// public:
-//  virtual
-#pragma endregion
+    //#pragma region Printing
+    //#pragma endregion
 
 #pragma region Type Identification
   public:
@@ -138,6 +139,21 @@ namespace AST
     };
 
 #pragma endregion
+
+#pragma region Getters / Setters
+  public:
+    auto const IsMut() const
+    {
+      return m_isMut;
+    }
+    void SetMut( bool const isMut )
+    {
+      m_isMut = isMut;
+    }
+#pragma endregion
+
+  private:
+    bool m_isMut;
   };
 
 #pragma region Namespace Functions
@@ -157,6 +173,13 @@ namespace AST
   {
     return
       [&]( ASTTypePtr const& astType ) { return astType->GetLLVMType( ctx ); };
+  }
+
+  template <typename ASTTypeTy, typename... Args>
+  static auto CreateGenericType( Args&&... args )
+  {
+    return CastType<Type>(
+      std::make_shared<ASTTypeTy>( std::forward<Args>( args )... ) );
   }
 #pragma endregion
 }

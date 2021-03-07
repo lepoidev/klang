@@ -64,6 +64,7 @@ set(KLANG_SOURCE_DIR ${CMAKE_SOURCE_DIR}/source)
 
 # generate AST headers
 include(CreateASTNodesHeader REQUIRED)
+include(CreateASTTypesHeader REQUIRED)
 
 # create compiler executable
 add_executable(${compiler} ${ANTLR4_CPP_GENERATED_SRC_DIR})

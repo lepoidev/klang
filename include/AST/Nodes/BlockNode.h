@@ -28,10 +28,12 @@ namespace AST
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
+      ctx.GetSymbolTable().PushNewScope();
       for( auto const& statement : GetStatements() )
       {
         statement->GenerateIR( ctx );
       }
+      ctx.GetSymbolTable().PopScope();
       return {};
     }
 #pragma endregion

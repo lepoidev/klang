@@ -12,6 +12,7 @@ antlr4_runtime
 
 # KLang generated
 ASTNodes.h
+ASTTypes.h
 
 # CMAKE
 *CMakeCache.txt

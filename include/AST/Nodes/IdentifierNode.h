@@ -28,7 +28,13 @@ namespace AST
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
-      return {};
+      if( auto const symbol {
+            ctx.GetSymbolTable().ResolveSymbol( GetIdentifier() ) };
+          symbol )
+      {
+        return symbol->get().GetVal();
+      }
+      throw SymbolTable::UndefinedSymbolError { GetIdentifier() };
     }
 #pragma endregion
 

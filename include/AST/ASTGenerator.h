@@ -137,5 +137,12 @@ namespace AST
       auto const file { "file" };
       return CreateGenericNode<AssertNode>( file, expr, line, exprNode );
     }
+
+    antlrcpp::Any
+    visitIdentifierExpr( KParser::IdentifierExprContext* ctx ) override
+    {
+      std::string const identifier { ctx->Identifier()->getText() };
+      return CreateGenericNode<IdentifierNode>( identifier );
+    }
   };
 }

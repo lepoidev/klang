@@ -24,6 +24,7 @@ public:
 #pragma endregion
 
 #pragma region Scope Interations
+public:
   void PushNewScope()
   {
     static int scopeId { 0 };
@@ -38,6 +39,7 @@ public:
 #pragma endregion
 
 #pragma region Symbol Management
+public:
   std::optional<std::reference_wrapper<Symbol>>
   ResolveSymbol( std::string const& symbolName )
   {

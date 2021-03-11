@@ -21,6 +21,16 @@ public:
     {
     }
   };
+  class SymbolAlreadyDefinedError : public std::logic_error
+  {
+  public:
+    SymbolAlreadyDefinedError() = delete;
+    SymbolAlreadyDefinedError( std::string const& symbolName ) :
+      std::logic_error { "Symbol \'" + symbolName +
+                         "\' already defined in current scope" }
+    {
+    }
+  };
 #pragma endregion
 
 #pragma region Scope Interations
@@ -40,6 +50,15 @@ public:
 
 #pragma region Symbol Management
 public:
+  bool IsDefinedInCurrentScope( std::string const& symbolName )
+  {
+    auto const firstScope { m_scopes.begin() };
+    if( firstScope != m_scopes.end() )
+    {
+      return firstScope->HasSymbolName( symbolName );
+    }
+    return false;
+  }
   std::optional<std::reference_wrapper<Symbol>>
   ResolveSymbol( std::string const& symbolName )
   {

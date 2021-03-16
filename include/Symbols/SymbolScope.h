@@ -34,7 +34,7 @@ public:
                         llvm::Value* val,
                         ASTTypePtr const& astType )
   {
-    if( !HasSymbolName( symbolName ) )
+    if( HasSymbolName( symbolName ) )
     {
       return false;
     }

@@ -31,6 +31,13 @@ public:
     {
     }
   };
+  class NoActiveScopeError : public std::logic_error
+  {
+  public:
+    NoActiveScopeError() : std::logic_error { "No active scope" }
+    {
+    }
+  };
 #pragma endregion
 
 #pragma region Scope Interations
@@ -58,6 +65,20 @@ public:
       return firstScope->HasSymbolName( symbolName );
     }
     return false;
+  }
+  void AddSymbol( std::string const& symbolName,
+                  llvm::Value* val,
+                  ASTTypePtr const& astType )
+  {
+    auto const firstScope { m_scopes.begin() };
+    if( firstScope == m_scopes.end() )
+    {
+      throw NoActiveScopeError {};
+    }
+    if( !firstScope->AddSymbol( symbolName, val, astType ) )
+    {
+      throw SymbolAlreadyDefinedError { symbolName };
+    }
   }
   std::optional<std::reference_wrapper<Symbol>>
   ResolveSymbol( std::string const& symbolName )

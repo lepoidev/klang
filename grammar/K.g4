@@ -51,12 +51,9 @@ continueStatement
     ;
 
 declarationStatement
-    : type Mut Identifier (Assign Null)? Semicolon    # emptyMutInitDecl
-    | type Identifier (Assign Null)? Semicolon        # emptyConstInitDecl
-    | type Mut Identifier Assign expr Semicolon       # initMutDecl
-    | type Identifier Assign expr Semicolon           # initConstDecl
-    | (Let)? Mut Identifier Assign expr Semicolon     # autoMutDecl
-    | Let Identifier Assign expr Semicolon            # autoConstDecl
+    : type (Mut)? Identifier (Assign Default)? Semicolon  # emptyInitDecl
+    | type (Mut)? Identifier Assign expr Semicolon        # initDecl
+    | (Let|((Let)? Mut)) Identifier Assign expr Semicolon # autoDecl
     ;
 
 globalDeclaration
@@ -397,6 +394,9 @@ Reverse
     ;
 
 // macros
+Default
+    : 'default'
+    ;
 Null
     : 'null'
     ;

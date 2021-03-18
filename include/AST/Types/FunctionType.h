@@ -68,7 +68,10 @@ namespace AST
     {
       return false;
     }
-
+    ASTTypePtr const Clone() const final
+    {
+      return { CreateType<remove_cvref_t<decltype( *this )>>( *this ) };
+    }
 #pragma endregion
 
   private:

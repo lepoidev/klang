@@ -143,9 +143,10 @@ namespace AST
     antlrcpp::Any visitAutoDecl( KParser::AutoDeclContext* ctx ) override
     {
       std::string const identifier { ctx->Identifier()->getText() };
-      // auto const isMutable { ctx->Mut() != nullptr };
+      auto const isMutable { ctx->Mut() != nullptr };
       auto const& exprNode { static_cast<ASTNodePtr>( visit( ctx->expr() ) ) };
-      auto declType { exprNode->GetType() };
+      auto declType { exprNode->GetType()->Clone() };
+      declType->SetMut( isMutable );
       return CreateGenericNode<DeclNode>( identifier, declType, exprNode );
     }
   };

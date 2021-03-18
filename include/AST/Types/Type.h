@@ -37,9 +37,6 @@ namespace AST
                         std::vector<ASTNodePtr> const& node ) const = 0;
 #pragma endregion
 
-    //#pragma region Printing
-    //#pragma endregion
-
 #pragma region Type Identification
   public:
     virtual bool const IsIntegral() const = 0;
@@ -52,6 +49,7 @@ namespace AST
 
 #pragma region Conversion
   public:
+    virtual ASTTypePtr const Clone() const = 0;
     virtual bool const IsSameType( ASTTypePtr const& otherTy ) const = 0;
     virtual bool const CanPromoteTo( ASTTypePtr const& otherTy ) const = 0;
     virtual bool const CanDemoteTo( ASTTypePtr const& otherTy ) const = 0;

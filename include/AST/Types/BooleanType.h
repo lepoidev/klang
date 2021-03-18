@@ -42,6 +42,10 @@ namespace AST
     {
       return {};
     }
+    ASTTypePtr const Clone() const final
+    {
+      return { CreateType<remove_cvref_t<decltype( *this )>>( *this ) };
+    }
 #pragma endregion
 
 #pragma region Operations

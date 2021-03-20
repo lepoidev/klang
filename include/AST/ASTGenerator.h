@@ -53,6 +53,12 @@ namespace AST
 #pragma endregion
 
 #pragma region Statements
+    antlrcpp::Any visitFunctionCallStatement(
+      KParser::FunctionCallStatementContext* ctx ) override
+    {
+      return visit( ctx->functionCall() );
+    }
+
     antlrcpp::Any
     visitReturnStatement( KParser::ReturnStatementContext* ctx ) override
     {

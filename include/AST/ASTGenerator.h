@@ -26,8 +26,14 @@ namespace AST
       std::string const functionName {
         functionIdentifier->functionName->getText()
       };
+
+      auto const hasReturnType { functionIdentifier->type() != nullptr };
+      ASTTypePtr const& returnType { hasReturnType ?
+                                       static_cast<ASTTypePtr>(
+                                         visit( functionIdentifier->type() ) ) :
+                                       nullptr };
+
       std::vector<ASTTypePtr> paramTypes {};
-      auto const& returnType { CreateType<IntegerType>() };
       auto const& funcBody { static_cast<ASTNodePtr>(
         visit( ctx->statement() ) ) };
       return CreateGenericNode<FunctionNode>(

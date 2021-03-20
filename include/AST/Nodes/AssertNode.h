@@ -10,22 +10,17 @@ namespace AST
   {
 #pragma region Constsructors / Destructors
   public:
-    AssertNode( std::string const& file,
-                std::string const& expr,
+    AssertNode( std::string const& expr,
                 uint64_t const line,
                 ASTNodePtr const& exprNode ) :
       Node {},
-      m_file { file }, m_expr { expr }, m_line { line }, m_exprNode { exprNode }
+      m_expr { expr }, m_line { line }, m_exprNode { exprNode }
     {
     }
 #pragma endregion
 
 #pragma region Getters / Setters
   public:
-    auto const& GetFile() const
-    {
-      return m_file;
-    }
     auto const& GetExpr() const
     {
       return m_expr;
@@ -44,14 +39,14 @@ namespace AST
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
+      auto const fileName { ctx.GetModule().getSourceFileName() };
       auto const cond { GetExprNode()->GenerateIR( ctx ) };
-      BuiltIn::Assert( ctx, GetFile(), GetExpr(), GetLine(), cond );
+      BuiltIn::Assert( ctx, fileName, GetExpr(), GetLine(), cond );
       return {};
     }
 #pragma endregion
 
   private:
-    std::string m_file;
     std::string m_expr;
     uint64_t m_line;
     ASTNodePtr m_exprNode;

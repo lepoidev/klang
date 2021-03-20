@@ -140,8 +140,7 @@ namespace AST
       auto const exprNode { static_cast<ASTNodePtr>( visit( ctx->expr() ) ) };
       auto const expr { ctx->expr()->getText() };
       auto const line { ctx->getStart()->getLine() };
-      auto const file { "file" };
-      return CreateGenericNode<AssertNode>( file, expr, line, exprNode );
+      return CreateGenericNode<AssertNode>( expr, line, exprNode );
     }
 #pragma endregion
 

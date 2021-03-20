@@ -51,8 +51,8 @@ continueStatement
     ;
 
 declarationStatement
-    : type (Mut)? Identifier (Assign Default)? Semicolon  # emptyInitDecl
-    | type (Mut)? Identifier Assign expr Semicolon        # initDecl
+    : type Identifier (Assign Default)? Semicolon         # emptyInitDecl
+    | type Identifier Assign expr Semicolon               # initDecl
     | (Let|((Let)? Mut)) Identifier Assign expr Semicolon # autoDecl
     ;
 
@@ -153,7 +153,8 @@ functionCallStatement
 // type
 
 rawType
-    : modifiedType
+    : primitiveType
+    | customType
     | vectorType
     | matrixType
     ;
@@ -162,22 +163,11 @@ type
     : rawType (Mut)?
     ;
 
-typedecl
-    : type
-    | Let
-    ;
-
-modifiedType
-    : baseType
-    | customType
-    ;
-
-baseType
+primitiveType
     : Integer
     | Char
     | Bool
     | Float
-    //| IntType
     | String
     ;
 

@@ -33,13 +33,29 @@ namespace AST
     {
       return m_initializerNode;
     }
+
+  protected:
+    auto const HasInitializer() const
+    {
+      return m_initializerNode != nullptr;
+    }
 #pragma endregion
 
 #pragma region IR Generation
+  protected:
+    auto const GenerateInitializer( IR::Context const& ctx ) const
+    {
+      if( HasInitializer() )
+      {
+        return GetInitializerNode()->GenerateIR( ctx );
+      }
+      return GetDeclType()->GenerateDefaultIRInst( ctx );
+    }
+
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
-      auto const val { GetInitializerNode()->GenerateIR( ctx ) };
+      auto const val { GenerateInitializer( ctx ) };
       ctx.GetSymbolTable().AddSymbol( GetIdentifier(), val, GetDeclType() );
       return {};
     }

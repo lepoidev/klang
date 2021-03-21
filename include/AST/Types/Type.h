@@ -24,6 +24,22 @@ namespace AST
       {
       }
     };
+    class CannotAssignToImmutableError : public std::logic_error
+    {
+    public:
+      CannotAssignToImmutableError() = delete;
+      CannotAssignToImmutableError( std::string const& symbolName ) :
+        std::logic_error { "Cannot assing to immutable \"" + symbolName + "\"" }
+      {
+      }
+    };
+    class TypeMismatchError : public std::logic_error
+    {
+    public:
+      TypeMismatchError() : std::logic_error { "Mismatching Types" }
+      {
+      }
+    };
 #pragma endregion
 
 #pragma region IR Generation
@@ -61,13 +77,21 @@ namespace AST
 #pragma endregion
 
 #pragma region Verification
-  protected:
+  public:
+    static void
+    VerifySameType( ASTTypePtr const& leftType, ASTTypePtr const& rightType )
+    {
+      if( !leftType->IsSameType( rightType ) )
+      {
+        throw TypeMismatchError {};
+      }
+    }
     static void
     VerifySameType( ASTNodePtr const& left, ASTNodePtr const& right )
     {
       auto const& leftType { left->GetType() };
       auto const& rightType { right->GetType() };
-      assert( leftType->IsSameType( rightType ) );
+      VerifySameType( leftType, rightType );
     }
 #pragma endregion
 

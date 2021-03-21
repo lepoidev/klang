@@ -55,6 +55,11 @@ namespace AST
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
+      if( HasInitializer() )
+      {
+        Type::VerifySameType( GetDeclType(), GetInitializerNode()->GetType() );
+      }
+
       auto const val { GenerateInitializer( ctx ) };
       ctx.GetSymbolTable().AddSymbol( GetIdentifier(), val, GetDeclType() );
       return {};

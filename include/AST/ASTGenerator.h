@@ -177,6 +177,25 @@ namespace AST
 
       return {};
     }
+
+    antlrcpp::Any visitInitDecl( KParser::InitDeclContext* ctx ) override
+    {
+      std::string const identifier { ctx->Identifier()->getText() };
+      auto const declType { static_cast<ASTTypePtr>( visit( ctx->type() ) ) };
+      auto const& exprNode { static_cast<ASTNodePtr>( visit( ctx->expr() ) ) };
+      return CreateGenericNode<DeclNode>( identifier, declType, exprNode );
+
+      return {};
+    }
+#pragma endregion
+
+#pragma region Assignment
+    antlrcpp::Any visitBasicAssign( KParser::BasicAssignContext* ctx ) override
+    {
+      std::string const identifier { ctx->Identifier()->getText() };
+      auto const& exprNode { static_cast<ASTNodePtr>( visit( ctx->expr() ) ) };
+      return CreateGenericNode<AssignNode>( identifier, exprNode );
+    }
 #pragma endregion
 
 #pragma region Types

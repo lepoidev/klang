@@ -5,6 +5,7 @@ namespace AST
 {
   class Node;
   class Type;
+  class Visitor;
 }
 
 using ASTNodePtr = std::shared_ptr<AST::Node>;

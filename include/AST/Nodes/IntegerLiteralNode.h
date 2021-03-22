@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AST/Nodes/IntegralLiteralNode.h"
+#include "AST/Nodes/Intermediates/IntegralLiteralNode.h"
 #include "AST/Types/IntegerType.h"
 
 namespace AST

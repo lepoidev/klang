@@ -17,5 +17,10 @@ namespace AST
       return ctx.GetIRBuilder().getInt32( val );
     }
 #pragma endregion
+
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
   };
 }

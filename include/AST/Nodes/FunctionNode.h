@@ -93,6 +93,15 @@ namespace AST
     }
 #pragma endregion
 
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+    std::vector<ASTNodePtr> GetChildren() const override
+    {
+      return { GetFuncBody() };
+    }
+#pragma endregion
+
   private:
     std::string m_functionName;
     ASTNodePtr m_funcBody;

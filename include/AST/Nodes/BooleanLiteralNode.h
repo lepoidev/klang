@@ -17,5 +17,10 @@ namespace AST
       return val ? ctx.GetIRBuilder().getTrue() : ctx.GetIRBuilder().getFalse();
     }
 #pragma endregion
+
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
   };
 }

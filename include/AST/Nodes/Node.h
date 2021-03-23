@@ -2,6 +2,14 @@
 
 #include "KLangCommon.h"
 #include "IR/Context.h"
+#include "AST/Visitor/Visitor.h"
+
+#define ACCEPT_VISITOR                                                         \
+public:                                                                        \
+  std::any Accept( Visitor& visitor ) override                                 \
+  {                                                                            \
+    return visitor.Visit( *this );                                             \
+  }
 
 namespace AST
 {
@@ -31,6 +39,18 @@ namespace AST
     ASTTypePtr const GetType() const
     {
       return m_type;
+    }
+#pragma endregion
+
+#pragma region Visitor Acceptance
+  public:
+    virtual std::any Accept( Visitor& visitor )
+    {
+      return visitor.Visit( *this );
+    }
+    virtual std::vector<ASTNodePtr> GetChildren() const
+    {
+      return {};
     }
 #pragma endregion
 

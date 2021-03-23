@@ -38,6 +38,11 @@ namespace AST
     }
 #pragma endregion
 
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
+
   private:
     std::string m_identifier;
   };

@@ -7,5 +7,9 @@ namespace AST
 {
   class LiteralNode : public Node
   {
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
   };
 }

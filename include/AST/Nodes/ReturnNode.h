@@ -25,5 +25,10 @@ namespace AST
       return {};
     }
 #pragma endregion
+
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
   };
 }

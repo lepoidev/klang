@@ -17,5 +17,10 @@ namespace AST
       return res;
     }
 #pragma endregion
+
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
   };
 }

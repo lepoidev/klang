@@ -1,20 +1,20 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Nodes/Node.h"
+#include "AST/Nodes/UnaryNode.h"
 #include "BuiltInFunctions.h"
 
 namespace AST
 {
-  class AssertNode : public Node
+  class AssertNode : public UnaryNode
   {
-#pragma region Constsructors / Destructors
+#pragma region Constructors / Destructors
   public:
     AssertNode( std::string const& expr,
                 uint64_t const line,
                 ASTNodePtr const& exprNode ) :
-      Node {},
-      m_expr { expr }, m_line { line }, m_exprNode { exprNode }
+      UnaryNode { exprNode },
+      m_expr { expr }, m_line { line }
     {
     }
 #pragma endregion
@@ -29,10 +29,6 @@ namespace AST
     {
       return m_line;
     }
-    auto const& GetExprNode() const
-    {
-      return m_exprNode;
-    }
 #pragma endregion
 
 #pragma region IR Generation
@@ -40,15 +36,19 @@ namespace AST
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
       auto const fileName { ctx.GetModule().getSourceFileName() };
-      auto const cond { GetExprNode()->GenerateIR( ctx ) };
+      auto const cond { GetNode()->GenerateIR( ctx ) };
       BuiltIn::Assert( ctx, fileName, GetExpr(), GetLine(), cond );
       return {};
     }
 #pragma endregion
 
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
+
   private:
     std::string m_expr;
     uint64_t m_line;
-    ASTNodePtr m_exprNode;
   };
 }

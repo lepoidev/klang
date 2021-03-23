@@ -1,11 +1,11 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Nodes/Node.h"
+#include "AST/Nodes/UnaryNode.h"
 
 namespace AST
 {
-  class DeclNode : public Node
+  class DeclNode : public UnaryNode
   {
 #pragma region Constructors / Destructors
   public:
@@ -13,8 +13,8 @@ namespace AST
     DeclNode( std::string const& identifier,
               ASTTypePtr const& declType,
               ASTNodePtr const& initializerNode ) :
-      m_identifier { identifier },
-      m_declType { declType }, m_initializerNode { initializerNode }
+      UnaryNode { initializerNode },
+      m_identifier { identifier }, m_declType { declType }
     {
     }
 #pragma endregion
@@ -29,15 +29,11 @@ namespace AST
     {
       return m_declType;
     }
-    auto const& GetInitializerNode() const
-    {
-      return m_initializerNode;
-    }
 
   protected:
     auto const HasInitializer() const
     {
-      return m_initializerNode != nullptr;
+      return GetNode() != nullptr;
     }
 #pragma endregion
 
@@ -47,7 +43,7 @@ namespace AST
     {
       if( HasInitializer() )
       {
-        return GetInitializerNode()->GenerateIR( ctx );
+        return GetNode()->GenerateIR( ctx );
       }
       return GetDeclType()->GenerateDefaultIRInst( ctx );
     }
@@ -57,7 +53,7 @@ namespace AST
     {
       if( HasInitializer() )
       {
-        Type::VerifySameType( GetDeclType(), GetInitializerNode()->GetType() );
+        Type::VerifySameType( GetDeclType(), GetNode()->GetType() );
       }
 
       auto const val { GenerateInitializer( ctx ) };
@@ -66,9 +62,13 @@ namespace AST
     }
 #pragma endregion
 
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
+
   private:
     std::string m_identifier;
     ASTTypePtr m_declType;
-    ASTNodePtr m_initializerNode;
   };
 }

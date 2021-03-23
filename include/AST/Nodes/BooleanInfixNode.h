@@ -16,5 +16,10 @@ namespace AST
       SetType( CreateType<BooleanType>() );
     }
 #pragma endregion
+
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
   };
 }

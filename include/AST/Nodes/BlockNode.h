@@ -38,6 +38,15 @@ namespace AST
     }
 #pragma endregion
 
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+    std::vector<ASTNodePtr> GetChildren() const override
+    {
+      return GetStatements();
+    }
+#pragma endregion
+
   private:
     std::vector<ASTNodePtr> m_statements;
   };

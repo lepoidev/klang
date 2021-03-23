@@ -1,17 +1,17 @@
 #pragma once
 
 #include "KLangCommon.h"
-#include "AST/Nodes/Node.h"
+#include "AST/Nodes/UnaryNode.h"
 #include "AST/Types/Type.h"
 
 namespace AST
 {
-  class AssignNode : public Node
+  class AssignNode : public UnaryNode
   {
 #pragma region Constructors / Destructors
   public:
     AssignNode( std::string const& identifier, ASTNodePtr const& exprNode ) :
-      Node {}, m_identifier { identifier }, m_exprNode { exprNode }
+      UnaryNode { exprNode }, m_identifier { identifier }
     {
     }
 #pragma endregion
@@ -22,13 +22,9 @@ namespace AST
     {
       return m_identifier;
     }
-    auto const& GetExprNode() const
-    {
-      return m_exprNode;
-    }
     auto const HasExpr() const
     {
-      return m_exprNode != nullptr;
+      return GetNode() != nullptr;
     }
 #pragma endregion
 
@@ -39,7 +35,7 @@ namespace AST
     {
       if( HasExpr() )
       {
-        return GetExprNode()->GenerateIR( ctx );
+        return GetNode()->GenerateIR( ctx );
       }
       return targetType->GenerateDefaultIRInst( ctx );
     }
@@ -55,7 +51,7 @@ namespace AST
       }
       auto& symbol { result->get() };
       auto const& symbolType { symbol.GetType() };
-      Type::VerifySameType( symbolType, GetExprNode()->GetType() );
+      Type::VerifySameType( symbolType, GetNode()->GetType() );
       if( !symbolType->IsMut() )
       {
         throw Type::CannotAssignToImmutableError { GetIdentifier() };
@@ -68,8 +64,12 @@ namespace AST
     }
 #pragma endregion
 
+#pragma region Visitor Acceptance
+  public:
+    ACCEPT_VISITOR;
+#pragma endregion
+
   private:
     std::string m_identifier;
-    ASTNodePtr m_exprNode;
   };
 }

@@ -20,5 +20,7 @@ add_grammar_tests_from_folder(${TESTING_PATH}/invalid_tests/grammar_failures "in
 # add compile and run tests
 add_compiled_tests_from_folder(${TESTING_PATH}/valid_tests/statements/conditionals "compile_and_run_" "$<TARGET_FILE:${compiler}>" "" FALSE)
 
+add_compiled_tests_from_folder(${TESTING_PATH}/valid_tests/expr/built_in_types/int/decl "compile_and_run_" "$<TARGET_FILE:${compiler}>" "" FALSE)
+
 # add compile and fail tests
 add_compiled_tests_from_folder(${TESTING_PATH}/invalid_tests/runtime_failures "compile_and_fail_" "$<TARGET_FILE:${compiler}>" "" TRUE)

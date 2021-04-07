@@ -6,6 +6,7 @@
 #include "KLangCommon.h"
 #include "AST/Nodes/Node.h"
 #include "IR/Context.h"
+#include "AST/TypeResolver.h"
 
 namespace IR
 {
@@ -25,10 +26,13 @@ namespace IR
   public:
     void GenerateIR( ASTNodePtr const& root )
     {
+      AST::TypeResolver typeResolver {};
+      typeResolver.ResolveTypes( root );
+
+      SymbolTable symbolTable;
       llvm::LLVMContext globalLLVMContext {};
       llvm::IRBuilder<> irBuilder { globalLLVMContext };
       llvm::Module mod { m_moduleName, globalLLVMContext };
-      SymbolTable symbolTable;
       Context ctx { globalLLVMContext, irBuilder, mod, symbolTable };
 
       root->GenerateIR( ctx );

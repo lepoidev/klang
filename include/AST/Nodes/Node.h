@@ -29,14 +29,12 @@ namespace AST
 #pragma endregion
 
 #pragma region Getters / Setter
-  protected:
+  public:
     void SetType( ASTTypePtr const& otherTy )
     {
       m_type = otherTy;
     }
-
-  public:
-    ASTTypePtr const GetType() const
+    auto const GetType() const
     {
       return m_type;
     }

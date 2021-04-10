@@ -92,25 +92,6 @@ target_compile_definitions(${compiler} PUBLIC ${LLVM_DEFINITIONS})
 add_subdirectory(${KLANG_SOURCE_DIR})
 target_include_directories(${compiler} PUBLIC ${KLANG_INCLUDE_DIR})
 
-# precompiled header
-target_precompile_headers(${compiler}
-  PUBLIC
-    <iostream>
-    <memory>
-    <string>
-    <deque>
-    <algorithm>
-    <functional>
-    <unordered_map>
-    <unordered_set>
-    <llvm/IR/Module.h>
-    <llvm/IR/LLVMContext.h>
-    <llvm/IR/IRBuilder.h>
-    <llvm/IR/Value.h>
-    <llvm/IR/Verifier.h>
-    <llvm/Support/raw_os_ostream.h>
-)
-
 create_symlink(${compiler} ${CMAKE_SOURCE_DIR}/bin)
 
 # testing

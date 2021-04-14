@@ -2,19 +2,12 @@
 
 #include "KLangCommon.h"
 #include "IR/Context.h"
+#include "IR/Tools/ControlFlowTools.h"
 
 namespace IR
 {
   class CondBuilder
   {
-#pragma region Callback Types
-  public:
-    using ConditionalCallback = std::function<llvm::Value*()>;
-    using BlockCreationCallback = std::function<void()>;
-    using ConditionalChainPair =
-      std::pair<ConditionalCallback, BlockCreationCallback>;
-#pragma endregion
-
 #pragma region Constructors / Destructors
   public:
     CondBuilder( Context const& ctx ) : m_ctx { ctx }

@@ -45,7 +45,7 @@ namespace AST
       auto const thenCallback { [&]() {
         GetThenStatement()->GenerateIR( ctx );
       } };
-      IR::CondBuilder::BlockCreationCallback elseCallback {};
+      IR::BlockCreationCallback elseCallback {};
       if( GetElseStatement() )
         elseCallback = [&]() { GetElseStatement()->GenerateIR( ctx ); };
 

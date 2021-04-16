@@ -47,8 +47,10 @@ namespace IR
 
         blockCB();
 
-        if( not( curFunction->getBasicBlockList().back().getTerminator() ) )
+        if( !curFunction->getBasicBlockList().back().getTerminator() )
+        {
           m_ctx.GetIRBuilder().CreateBr( mergeBlock );
+        }
         curFunction->getBasicBlockList().push_back( nextBlock );
         m_ctx.GetIRBuilder().SetInsertPoint( nextBlock );
       }
@@ -58,8 +60,10 @@ namespace IR
         m_elseBlockCallback();
       }
 
-      if( not( curFunction->getBasicBlockList().back().getTerminator() ) )
+      if( !curFunction->getBasicBlockList().back().getTerminator() )
+      {
         m_ctx.GetIRBuilder().CreateBr( mergeBlock );
+      }
       curFunction->getBasicBlockList().push_back( mergeBlock );
       m_ctx.GetIRBuilder().SetInsertPoint( mergeBlock );
 

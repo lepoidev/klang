@@ -77,7 +77,7 @@ namespace AST
       GetFuncBody()->GenerateIR( ctx );
       ctx.GetSymbolTable().PopScope();
 
-      if( not( llvmFunction->getBasicBlockList().back().getTerminator() ) )
+      if( !llvmFunction->getBasicBlockList().back().getTerminator() )
       {
         if( auto const& retTy { GetReturnType() }; retTy == nullptr )
         {

@@ -58,7 +58,8 @@ namespace AST
       }
 
       auto const& val { GenerateNewValue( ctx, symbolType ) };
-      symbol.SetVal( val );
+      auto const& ptr { symbol.GetVal() };
+      ctx.GetIRBuilder().CreateStore( val, ptr );
 
       return {};
     }

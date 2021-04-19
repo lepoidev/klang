@@ -56,8 +56,11 @@ namespace AST
         Type::VerifySameType( GetDeclType(), GetNode()->GetType() );
       }
 
-      auto const val { GenerateInitializer( ctx ) };
-      ctx.GetSymbolTable().AddSymbol( GetIdentifier(), val, GetDeclType() );
+      auto const& initializer { GenerateInitializer( ctx ) };
+      auto const& ptr { ctx.GetIRBuilder().CreateAlloca(
+        initializer->getType() ) };
+      ctx.GetIRBuilder().CreateStore( initializer, ptr );
+      ctx.GetSymbolTable().AddSymbol( GetIdentifier(), ptr, GetDeclType() );
       return {};
     }
 #pragma endregion

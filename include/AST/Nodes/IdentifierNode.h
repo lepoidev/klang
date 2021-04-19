@@ -32,7 +32,7 @@ namespace AST
             ctx.GetSymbolTable().ResolveSymbol( GetIdentifier() ) };
           symbol )
       {
-        return symbol->get().GetVal();
+        return ctx.GetIRBuilder().CreateLoad( symbol->get().GetVal(), symbol->get().GetName() );
       }
       throw SymbolTable::UndefinedSymbolError { GetIdentifier() };
     }

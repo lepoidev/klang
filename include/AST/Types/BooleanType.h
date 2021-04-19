@@ -59,6 +59,16 @@ namespace AST
       auto const rightIR { right->GenerateIR( ctx ) };
       return ctx.GetIRBuilder().CreateICmpEQ( leftIR, rightIR );
     }
+
+    llvm::Value* CreateNEQ( IR::Context const& ctx,
+                            ASTNodePtr const& left,
+                            ASTNodePtr const& right ) const final
+    {
+      VerifySameType( left, right );
+      auto const leftIR { left->GenerateIR( ctx ) };
+      auto const rightIR { right->GenerateIR( ctx ) };
+      return ctx.GetIRBuilder().CreateICmpNE( leftIR, rightIR );
+    }
 #pragma endregion
   };
 }

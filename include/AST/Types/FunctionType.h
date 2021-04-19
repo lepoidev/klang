@@ -48,6 +48,12 @@ namespace AST
     {
       return {};
     }
+    llvm::Value*
+    GenerateStackAllocation( IR::Context const& ctx,
+                             std::string const& name ) const override
+    {
+      return {};
+    }
     llvm::Type* GetLLVMType( IR::Context const& ctx ) const override
     {
       return {};

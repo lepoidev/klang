@@ -51,6 +51,10 @@ namespace AST
     virtual llvm::Value*
     GenerateIRInstFrom( IR::Context const& ctx,
                         std::vector<ASTNodePtr> const& node ) const = 0;
+
+    virtual llvm::Value*
+    GenerateStackAllocation( IR::Context const& ctx,
+                             std::string const& name ) const = 0;
 #pragma endregion
 
 #pragma region Type Identification

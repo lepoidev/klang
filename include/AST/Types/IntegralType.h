@@ -14,6 +14,12 @@ namespace AST
     {
       return true;
     }
+    llvm::Value*
+    GenerateStackAllocation( IR::Context const& ctx,
+                             std::string const& name ) const override
+    {
+      return ctx.GetIRBuilder().CreateAlloca( GetLLVMType( ctx ), {}, name );
+    }
 #pragma endregion
   };
 }

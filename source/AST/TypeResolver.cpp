@@ -38,7 +38,7 @@ namespace AST
   std::any TypeResolver::Visit( DeclNode& node )
   {
     VisitChildren( node );
-    m_symbolTable.AddSymbol( node.GetIdentifier(), {}, node.GetDeclType() );
+    m_symbolTable.AddSymbol( node.GetIdentifier(), node.GetDeclType() );
     return {};
   }
   std::any TypeResolver::Visit( BlockNode& node )

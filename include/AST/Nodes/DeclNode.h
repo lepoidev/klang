@@ -57,10 +57,10 @@ namespace AST
       }
 
       auto const& initializer { GenerateInitializer( ctx ) };
-      auto const& ptr { ctx.GetIRBuilder().CreateAlloca(
-        initializer->getType() ) };
+      auto const& ptr { GetNode()->GetType()->GenerateStackAllocation(
+        ctx, GetIdentifier() ) };
       ctx.GetIRBuilder().CreateStore( initializer, ptr );
-      ctx.GetSymbolTable().AddSymbol( GetIdentifier(), ptr, GetDeclType() );
+      ctx.GetSymbolTable().AddSymbol( GetIdentifier(), GetDeclType(), ptr );
       return {};
     }
 #pragma endregion

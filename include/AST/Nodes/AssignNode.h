@@ -43,12 +43,8 @@ namespace AST
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
-      auto const result { ctx.GetSymbolTable().ResolveSymbol(
-        GetIdentifier() ) };
-      if( !result )
-      {
-        throw SymbolTable::UndefinedSymbolError { GetIdentifier() };
-      }
+      auto const result { ctx.GetSymbolTable().ResolveSymbol( GetIdentifier(),
+                                                              true ) };
       auto& symbol { result->get() };
       auto const& symbolType { symbol.GetType() };
       Type::VerifySameType( symbolType, GetNode()->GetType() );
@@ -58,8 +54,7 @@ namespace AST
       }
 
       auto const& val { GenerateNewValue( ctx, symbolType ) };
-      auto const& ptr { symbol.GetVal() };
-      ctx.GetIRBuilder().CreateStore( val, ptr );
+      ctx.GetIRBuilder().CreateStore( val, symbol.GetPtr() );
 
       return {};
     }

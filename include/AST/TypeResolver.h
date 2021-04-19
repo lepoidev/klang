@@ -34,6 +34,6 @@ namespace AST
 #pragma endregion
 
   private:
-    SymbolTable m_symbolTable;
+    SymbolTable<Symbol> m_symbolTable;
   };
 }

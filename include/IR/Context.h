@@ -2,6 +2,7 @@
 
 #include "KLangCommon.h"
 #include "Symbols/SymbolTable.h"
+#include "IR/IRSymbol.h"
 
 namespace IR
 {
@@ -13,7 +14,7 @@ namespace IR
     Context( llvm::LLVMContext& globalLLVMContext,
              llvm::IRBuilder<>& irBuilder,
              llvm::Module& module,
-             SymbolTable& symbolTable ) :
+             IRSymbolTable& symbolTable ) :
       m_globalLLVMContext { globalLLVMContext },
       m_irBuilder { irBuilder }, m_module { module }, m_symbolTable {
         symbolTable
@@ -37,7 +38,7 @@ namespace IR
     {
       return m_module;
     }
-    SymbolTable& GetSymbolTable() const
+    IRSymbolTable& GetSymbolTable() const
     {
       return m_symbolTable;
     }
@@ -47,6 +48,6 @@ namespace IR
     llvm::LLVMContext& m_globalLLVMContext;
     llvm::IRBuilder<>& m_irBuilder;
     llvm::Module& m_module;
-    SymbolTable& m_symbolTable;
+    IRSymbolTable& m_symbolTable;
   };
 }

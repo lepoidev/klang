@@ -3,6 +3,7 @@
 #include "KLangCommon.h"
 #include "Symbols/SymbolScope.h"
 
+template <typename SymbolTy>
 class SymbolTable
 {
 #pragma region Constructors / Destructors
@@ -66,22 +67,24 @@ public:
     }
     return false;
   }
-  void AddSymbol( std::string const& symbolName,
-                  llvm::Value* val,
-                  ASTTypePtr const& astType )
+  template <typename... AdditionalArgs>
+  void
+  AddSymbol( std::string const& symbolName, AdditionalArgs&&... additionalArgs )
   {
     auto const firstScope { m_scopes.begin() };
     if( firstScope == m_scopes.end() )
     {
       throw NoActiveScopeError {};
     }
-    if( !firstScope->AddSymbol( symbolName, val, astType ) )
+    if( !firstScope->AddSymbol(
+          symbolName, std::forward<AdditionalArgs>( additionalArgs )... ) )
     {
       throw SymbolAlreadyDefinedError { symbolName };
     }
   }
-  std::optional<std::reference_wrapper<Symbol>>
-  ResolveSymbol( std::string const& symbolName )
+  std::optional<std::reference_wrapper<SymbolTy>>
+  ResolveSymbol( std::string const& symbolName,
+                 bool const throwIfNotExists = false )
   {
     for( auto& scope : m_scopes )
     {
@@ -90,10 +93,15 @@ public:
         return scope.GetSymbol( symbolName );
       }
     }
+
+    if( throwIfNotExists )
+    {
+      throw UndefinedSymbolError { symbolName };
+    }
     return {};
   }
 #pragma endregion
 
 private:
-  std::deque<SymbolScope> m_scopes;
+  std::deque<SymbolScope<SymbolTy>> m_scopes;
 };

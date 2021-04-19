@@ -20,7 +20,7 @@ namespace IR
     AST::TypeResolver typeResolver {};
     typeResolver.ResolveTypes( root );
 
-    SymbolTable symbolTable;
+    IR::IRSymbolTable symbolTable {};
     llvm::LLVMContext globalLLVMContext {};
     llvm::IRBuilder<> irBuilder { globalLLVMContext };
     llvm::Module mod { m_moduleName, globalLLVMContext };

@@ -20,7 +20,7 @@ statement
     ;
 
 loopStatement
-    : While condition statement                  # condLoop
+    : While condition statement                  # whileLoop
     | For (Mut)? Identifier In expr statement    # iteratorLoop
     | Repeat statement Until condition Semicolon # untilLoop
     ;

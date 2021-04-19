@@ -26,7 +26,7 @@ namespace AST
     {
       return {};
     }
-    llvm::Type* GetLLVMType( IR::Context const& ctx ) override
+    llvm::Type* GetLLVMType( IR::Context const& ctx ) const override
     {
       return ctx.GetIRBuilder().getInt1Ty();
     }

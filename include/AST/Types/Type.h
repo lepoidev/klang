@@ -56,7 +56,7 @@ namespace AST
 #pragma region Type Identification
   public:
     virtual bool const IsIntegral() const = 0;
-    virtual llvm::Type* GetLLVMType( IR::Context const& ctx ) = 0;
+    virtual llvm::Type* GetLLVMType( IR::Context const& ctx ) const = 0;
     llvm::Type::TypeID const GetLLVMTypeID( IR::Context const& ctx )
     {
       return GetLLVMType( ctx )->getTypeID();

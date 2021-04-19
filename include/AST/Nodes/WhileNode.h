@@ -11,17 +11,17 @@ namespace AST
 #pragma region Constructors / Destructors
   public:
     WhileNode() = delete;
-    WhileNode( ASTNodePtr const& condExpr, ASTNodePtr const& loopBody ) :
-      m_condExpr { condExpr }, m_loopBody { loopBody }
+    WhileNode( ASTNodePtr const& loopCond, ASTNodePtr const& loopBody ) :
+      m_loopCond { loopCond }, m_loopBody { loopBody }
     {
     }
 #pragma endregion
 
 #pragma region Getters / Setters
   public:
-    auto const& GetCondExpr() const
+    auto const& GetLoopCond() const
     {
-      return m_condExpr;
+      return m_loopCond;
     }
     auto const& GetLoopBody() const
     {
@@ -34,7 +34,7 @@ namespace AST
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
       auto const condCallback { [&]() {
-        return GetCondExpr()->GenerateIR( ctx );
+        return GetLoopCond()->GenerateIR( ctx );
       } };
       auto const loopBodyCallback { [&]() {
         GetLoopBody()->GenerateIR( ctx );
@@ -53,12 +53,12 @@ namespace AST
     ACCEPT_VISITOR;
     std::vector<ASTNodePtr> GetChildren() const override
     {
-      return { GetCondExpr(), GetLoopBody() };
+      return { GetLoopCond(), GetLoopBody() };
     }
 #pragma endregion
 
   private:
-    ASTNodePtr m_condExpr;
+    ASTNodePtr m_loopCond;
     ASTNodePtr m_loopBody;
   };
 }

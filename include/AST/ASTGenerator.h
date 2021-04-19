@@ -31,6 +31,8 @@ namespace AST
 
     antlrcpp::Any visitConditionalStatement(
       KParser::ConditionalStatementContext* ctx ) override;
+
+    antlrcpp::Any visitWhileLoop( KParser::WhileLoopContext* ctx ) override;
 #pragma endregion
 
     antlrcpp::Any visitBooleanExpr( KParser::BooleanExprContext* ctx ) override;
@@ -41,6 +43,8 @@ namespace AST
 
     antlrcpp::Any
     visitIdentifierExpr( KParser::IdentifierExprContext* ctx ) override;
+
+    antlrcpp::Any visitCondition( KParser::ConditionContext* ctx ) override;
 
 #pragma region Declaration
     antlrcpp::Any visitAutoDecl( KParser::AutoDeclContext* ctx ) override;

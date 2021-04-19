@@ -97,6 +97,21 @@ namespace AST
     return CreateGenericNode<CondNode>(
       condExpr, thenStatement, elseStatement );
   }
+
+  antlrcpp::Any ASTGenerator::visitWhileLoop( KParser::WhileLoopContext* ctx )
+  {
+    auto const condExpr { static_cast<ASTNodePtr>(
+      visit( ctx->condition() ) ) };
+    auto loopBody { static_cast<ASTNodePtr>( visit( ctx->statement() ) ) };
+
+    if( std::dynamic_pointer_cast<BlockNode>( loopBody ) == nullptr )
+    {
+      loopBody =
+        CreateGenericNode<BlockNode>( std::vector<ASTNodePtr> { loopBody } );
+    }
+
+    return CreateGenericNode<WhileNode>( condExpr, loopBody );
+  }
 #pragma endregion
 
   antlrcpp::Any
@@ -155,6 +170,10 @@ namespace AST
     return CreateGenericNode<IdentifierNode>( identifier );
   }
 
+  antlrcpp::Any ASTGenerator::visitCondition( KParser::ConditionContext* ctx )
+  {
+    return visit( ctx->expr() );
+  }
 #pragma region Declaration
   antlrcpp::Any ASTGenerator::visitAutoDecl( KParser::AutoDeclContext* ctx )
   {

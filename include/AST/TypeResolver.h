@@ -26,6 +26,8 @@ namespace AST
 
 #pragma region Overrides
   private:
+    std::any Visit( AddNode& node ) override;
+    std::any Visit( ArithInfixNode& node ) override;
     std::any Visit( IdentifierNode& node ) override;
     std::any Visit( DeclNode& node ) override;
     std::any Visit( BlockNode& node ) override;

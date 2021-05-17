@@ -25,6 +25,16 @@ namespace AST
 
     return ret;
   }
+  std::any TypeResolver::Visit( AddNode& node )
+  {
+    return Visit( static_cast<ArithInfixNode&>( node ) );
+  }
+  std::any TypeResolver::Visit( ArithInfixNode& node )
+  {
+    VisitChildren( node );
+    node.SetType( node.GetLeft()->GetType() );
+    return {};
+  }
   std::any TypeResolver::Visit( IdentifierNode& node )
   {
     if( auto const symbol {

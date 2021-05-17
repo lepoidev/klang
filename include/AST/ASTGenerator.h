@@ -2,6 +2,8 @@
 
 #include <KBaseVisitor.h>
 
+#include "KLangCommon.h"
+
 namespace AST
 {
   class ASTGenerator : public KBaseVisitor
@@ -35,7 +37,12 @@ namespace AST
     antlrcpp::Any visitWhileLoop( KParser::WhileLoopContext* ctx ) override;
 #pragma endregion
 
+#pragma region Expr
     antlrcpp::Any visitBooleanExpr( KParser::BooleanExprContext* ctx ) override;
+
+    antlrcpp::Any
+    visitNonBooleanExpr( KParser::NonBooleanExprContext* ctx ) override;
+#pragma endregion
 
 #pragma region Built In
     antlrcpp::Any visitAssertExpr( KParser::AssertExprContext* ctx ) override;
@@ -64,6 +71,17 @@ namespace AST
     visitPrimitiveType( KParser::PrimitiveTypeContext* ctx ) override;
 
     antlrcpp::Any visitType( KParser::TypeContext* ctx ) override;
+#pragma endregion
+
+#pragma region Helpers
+  private:
+    template <typename CtxTy>
+    std::pair<ASTNodePtr, ASTNodePtr> VisitLR( CtxTy* ctx )
+    {
+      auto const left { static_cast<ASTNodePtr>( visit( ctx->left ) ) };
+      auto const right { static_cast<ASTNodePtr>( visit( ctx->right ) ) };
+      return { left, right };
+    }
 #pragma endregion
   };
 }

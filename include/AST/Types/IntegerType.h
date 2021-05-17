@@ -97,6 +97,14 @@ namespace AST
       return CreateInfixOp(
         ctx, left, right, &llvm::IRBuilder<>::CreateICmpSLE );
     };
+
+    llvm::Value* CreateAdd( IR::Context const& ctx,
+                            ASTNodePtr const& left,
+                            ASTNodePtr const& right ) const final
+    {
+      return CreateArithInfixOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateAdd );
+    };
 #pragma endregion
   };
 }

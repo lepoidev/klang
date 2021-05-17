@@ -99,7 +99,7 @@ namespace AST
     }
 #pragma endregion
 
-#pragma region Boolean Operations
+#pragma region Operations
   public:
     virtual std::pair<llvm::Value*, llvm::Value*>
     GenerateLR( IR::Context const& ctx,
@@ -120,6 +120,19 @@ namespace AST
     {
       auto const [leftIR, rightIR] { GenerateLR( ctx, left, right ) };
       return std::invoke( func, ctx.GetIRBuilder(), leftIR, rightIR, "" );
+    }
+
+    template <typename FuncTy>
+    llvm::Value* CreateArithInfixOp( IR::Context const& ctx,
+                                     ASTNodePtr const& left,
+                                     ASTNodePtr const& right,
+                                     FuncTy const& func,
+                                     bool hasNUW = false,
+                                     bool hasNSW = false ) const
+    {
+      auto const [leftIR, rightIR] { GenerateLR( ctx, left, right ) };
+      return std::invoke(
+        func, ctx.GetIRBuilder(), leftIR, rightIR, "", hasNUW, hasNSW );
     }
 
     virtual llvm::Value* CreateEQ( IR::Context const& ctx,
@@ -164,6 +177,12 @@ namespace AST
       throw OperationNotSupportedError();
     };
 
+    virtual llvm::Value* CreateAdd( IR::Context const& ctx,
+                                    ASTNodePtr const& left,
+                                    ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
 #pragma endregion
 
 #pragma region Getters / Setters

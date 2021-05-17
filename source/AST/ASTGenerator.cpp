@@ -117,8 +117,7 @@ namespace AST
   antlrcpp::Any
   ASTGenerator::visitBooleanExpr( KParser::BooleanExprContext* ctx )
   {
-    auto const left { static_cast<ASTNodePtr>( visit( ctx->left ) ) };
-    auto const right { static_cast<ASTNodePtr>( visit( ctx->right ) ) };
+    auto const [left, right] { VisitLR( ctx ) };
     if( auto const& eqOp { ctx->equalityOperation() }; eqOp != nullptr )
     {
       if( eqOp->IsEqual() != nullptr )
@@ -148,6 +147,20 @@ namespace AST
       else if( cmpOp->GreaterEqual() != nullptr )
       {
         return CreateGenericNode<GTENode>( left, right );
+      }
+    }
+    return visitChildren( ctx );
+  }
+
+  antlrcpp::Any
+  ASTGenerator::visitNonBooleanExpr( KParser::NonBooleanExprContext* ctx )
+  {
+    auto const& [left, right] { VisitLR( ctx ) };
+    if( auto const& addOp { ctx->additiveOperation() }; addOp != nullptr )
+    {
+      if( addOp->Plus() != nullptr )
+      {
+        return CreateGenericNode<AddNode>( left, right );
       }
     }
     return visitChildren( ctx );

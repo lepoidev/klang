@@ -50,11 +50,18 @@ namespace IR
       }
 
       CondBuilder condBuilder { m_ctx };
-      condBuilder.AddConditional( m_conditionalCallback,
-                                  m_postConditionalCallback );
+      auto const postConditionalCallback { [&]() {
+        if( m_postConditionalCallback )
+        {
+          m_postConditionalCallback();
+        }
+        m_ctx.GetIRBuilder().CreateBr( loopBeginBlock );
+      } };
       auto const exitLoopCallback { [&]() {
         m_ctx.GetIRBuilder().CreateBr( loopEndBlock );
       } };
+      condBuilder.AddConditional( m_conditionalCallback,
+                                  postConditionalCallback );
       condBuilder.SetElse( exitLoopCallback );
       condBuilder.Build();
 

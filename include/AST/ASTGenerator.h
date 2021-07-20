@@ -42,6 +42,8 @@ namespace AST
 
     antlrcpp::Any
     visitNonBooleanExpr( KParser::NonBooleanExprContext* ctx ) override;
+
+    antlrcpp::Any visitBasicExpr( KParser::BasicExprContext* ctx ) override;
 #pragma endregion
 
 #pragma region Built In

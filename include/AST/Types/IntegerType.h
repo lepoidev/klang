@@ -105,6 +105,30 @@ namespace AST
       return CreateArithInfixOp(
         ctx, left, right, &llvm::IRBuilder<>::CreateAdd );
     };
+
+    llvm::Value* CreateSub( IR::Context const& ctx,
+                            ASTNodePtr const& left,
+                            ASTNodePtr const& right ) const final
+    {
+      return CreateArithInfixOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateSub );
+    };
+
+    llvm::Value* CreateMul( IR::Context const& ctx,
+                            ASTNodePtr const& left,
+                            ASTNodePtr const& right ) const final
+    {
+      return CreateArithInfixOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateMul );
+    };
+
+    llvm::Value* CreateDiv( IR::Context const& ctx,
+                            ASTNodePtr const& left,
+                            ASTNodePtr const& right ) const final
+    {
+      return CreateArithInfixShiftOp(
+        ctx, left, right, &llvm::IRBuilder<>::CreateSDiv );
+    };
 #pragma endregion
   };
 }

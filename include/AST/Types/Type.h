@@ -135,6 +135,18 @@ namespace AST
         func, ctx.GetIRBuilder(), leftIR, rightIR, "", hasNUW, hasNSW );
     }
 
+    template <typename FuncTy>
+    llvm::Value* CreateArithInfixShiftOp( IR::Context const& ctx,
+                                          ASTNodePtr const& left,
+                                          ASTNodePtr const& right,
+                                          FuncTy const& func,
+                                          bool isExact = false ) const
+    {
+      auto const [leftIR, rightIR] { GenerateLR( ctx, left, right ) };
+      return std::invoke(
+        func, ctx.GetIRBuilder(), leftIR, rightIR, "", isExact );
+    }
+
     virtual llvm::Value* CreateEQ( IR::Context const& ctx,
                                    ASTNodePtr const& left,
                                    ASTNodePtr const& right ) const
@@ -183,6 +195,27 @@ namespace AST
     {
       throw OperationNotSupportedError();
     };
+
+    virtual llvm::Value* CreateSub( IR::Context const& ctx,
+                                    ASTNodePtr const& left,
+                                    ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
+
+    virtual llvm::Value* CreateMul( IR::Context const& ctx,
+                                    ASTNodePtr const& left,
+                                    ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
+
+    virtual llvm::Value* CreateDiv( IR::Context const& ctx,
+                                    ASTNodePtr const& left,
+                                    ASTNodePtr const& right ) const
+    {
+      throw OperationNotSupportedError();
+    };
 #pragma endregion
 
 #pragma region Getters / Setters
@@ -216,8 +249,8 @@ namespace AST
 
   static auto const CreateTypeConverter( IR::Context const& ctx )
   {
-    return
-      [&]( ASTTypePtr const& astType ) { return astType->GetLLVMType( ctx ); };
+    return [&]( ASTTypePtr const& astType )
+    { return astType->GetLLVMType( ctx ); };
   }
 
   template <typename ASTTypeTy, typename... Args>

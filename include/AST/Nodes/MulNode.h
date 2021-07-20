@@ -5,7 +5,7 @@
 
 namespace AST
 {
-  class AddNode : public ArithInfixNode
+  class MulNode : public ArithInfixNode
   {
 #pragma region Constructors / Destructors
     using ArithInfixNode::ArithInfixNode;
@@ -15,7 +15,7 @@ namespace AST
   public:
     llvm::Value* GenerateIR( IR::Context const& ctx ) const final
     {
-      return GetType()->CreateAdd( ctx, GetLeft(), GetRight() );
+      return GetType()->CreateMul( ctx, GetLeft(), GetRight() );
     }
 #pragma endregion
 

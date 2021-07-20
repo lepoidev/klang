@@ -100,7 +100,7 @@ expr
     | left=expr DotDot right=expr                           # rangeExpr
     | <assoc=right> unaryOperation expr                     # unaryExpr
     | <assoc=right> left=expr powOperation right=expr       # nonBooleanExpr
-    | left=expr multiplicativeOperaton right=expr           # nonBooleanExpr
+    | left=expr multiplicativeOperation right=expr          # nonBooleanExpr
     | left=expr additiveOperation right=expr                # nonBooleanExpr
     | left=expr shiftOperation right=expr                   # shiftExpr
     | left=expr bitwiseOperation right=expr                 # bitwiseExpr
@@ -225,7 +225,7 @@ additiveOperation
     | Minus
     ;
 
-multiplicativeOperaton
+multiplicativeOperation
     : Star
     | Div
     | Rem

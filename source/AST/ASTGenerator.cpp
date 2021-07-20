@@ -162,7 +162,27 @@ namespace AST
       {
         return CreateGenericNode<AddNode>( left, right );
       }
+      else if( addOp->Minus() != nullptr )
+      {
+        return CreateGenericNode<SubNode>( left, right );
+      }
     }
+    else if( auto const& mulOp { ctx->multiplicativeOperation() } )
+    {
+      if( mulOp->Star() != nullptr )
+      {
+        return CreateGenericNode<MulNode>( left, right );
+      }
+      else if( mulOp->Div() != nullptr )
+      {
+        return CreateGenericNode<DivNode>( left, right );
+      }
+    }
+    return visitChildren( ctx );
+  }
+
+  antlrcpp::Any ASTGenerator::visitBasicExpr( KParser::BasicExprContext* ctx )
+  {
     return visitChildren( ctx );
   }
 

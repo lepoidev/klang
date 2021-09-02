@@ -186,6 +186,23 @@ namespace AST
     return visitChildren( ctx );
   }
 
+  antlrcpp::Any ASTGenerator::visitUnaryExpr( KParser::UnaryExprContext* ctx )
+  {
+    auto const& expr { static_cast<ASTNodePtr>( visit( ctx->expr() ) ) };
+    auto const& unaryOp { ctx->unaryOperation() };
+    if( unaryOp->Minus() != nullptr )
+    {
+      return CreateGenericNode<SubNode>(
+        CreateGenericNode<IntegerLiteralNode>( 0 ), expr );
+    }
+    else if( unaryOp->Plus() != nullptr )
+    {
+      return CreateGenericNode<AddNode>(
+        CreateGenericNode<IntegerLiteralNode>( 0 ), expr );
+    }
+    return visitChildren( ctx );
+  }
+
 #pragma region Built In
   antlrcpp::Any ASTGenerator::visitAssertExpr( KParser::AssertExprContext* ctx )
   {
